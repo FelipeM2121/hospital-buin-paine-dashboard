@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+﻿import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/build/pdf.worker.mjs", import.meta.url).href;
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
@@ -156,46 +156,49 @@ const SUMMARY = {
 
 // Paleta Billy - colores limpios y profesionales
 const COLORS = {
-  primary: "#0090FF",       // Azul Billy
-  primaryDark: "#0070DD",
-  primaryLight: "#40A9FF",
-  green: "#00C896",         // Verde esmeralda
-  greenLight: "#5DDAB4",
-  orange: "#FF9500",        // Naranja ámbar
-  orangeLight: "#FFB340",
-  red: "#FF3B30",          // Rojo alerta
-  redLight: "#FF6B63",
-  purple: "#8B5CF6",
-  blue: "#0EA5E9",
-  cyan: "#06B6D4",
-  
-  // Neutrales
-  bg: "#F8F9FA",           // Fondo gris muy claro
-  sidebar: "#EFF3F6",      // Sidebar gris claro
-  white: "#FFFFFF",
-  card: "#FFFFFF",
-  border: "#E5E7EB",
-  borderLight: "#F3F4F6",
-  
+  primary: "#6366f1",       // Violeta indigo (accent principal)
+  primaryDark: "#4f46e5",
+  primaryLight: "#a5b4fc",
+  green: "#10b981",         // Verde esmeralda
+  greenLight: "#6ee7b7",
+  orange: "#f59e0b",        // Ámbar
+  orangeLight: "#fcd34d",
+  red: "#ef4444",           // Rojo alerta
+  redLight: "#fca5a5",
+  purple: "#8b5cf6",
+  blue: "#3b82f6",
+  cyan: "#06b6d4",
+
+  // Neutrales — estilo dark sidebar + light content
+  bg: "#f4f5fa",            // Fondo general gris muy claro
+  sidebar: "#12121f",       // Sidebar oscuro navy
+  sidebarActive: "#1e1e30", // Item activo sidebar
+  white: "#ffffff",
+  card: "#ffffff",
+  border: "#e5e8ef",
+  borderLight: "#f1f3f9",
+
   // Textos
-  text: "#1F2937",         // Gris oscuro
-  textMuted: "#6B7280",    // Gris medio
-  textLight: "#9CA3AF",    // Gris claro
+  text: "#1a1d2e",          // Casi negro
+  textMuted: "#6b7280",     // Gris medio
+  textLight: "#9ca3af",     // Gris claro
+  textSidebar: "#8b8fa8",   // Texto sidebar inactivo
+  textSidebarActive: "#ffffff",
 };
 
 const CHART_COLORS = [
-  COLORS.primary,
-  COLORS.green, 
-  COLORS.orange,
-  COLORS.purple,
-  COLORS.cyan,
-  COLORS.blue,
-  "#F59E0B",
-  "#EC4899",
-  "#14B8A6",
-  "#8B5CF6",
-  "#0EA5E9",
-  "#F97316"
+  "#6366f1",
+  "#8b5cf6",
+  "#a78bfa",
+  "#10b981",
+  "#3b82f6",
+  "#f59e0b",
+  "#ec4899",
+  "#06b6d4",
+  "#14b8a6",
+  "#f97316",
+  "#84cc16",
+  "#e879f9",
 ];
 
 const PIE_FAMILIA_COLORS = { 
@@ -229,57 +232,76 @@ function KPICard({ label, value, sub, icon, color = COLORS.primary, compact = fa
   return (
     <div style={{
       background: COLORS.white,
-      border: `1px solid ${COLORS.border}`,
-      borderRadius: 12,
-      padding: compact ? "20px" : "24px",
+      border: `1px solid ${COLORS.borderLight}`,
+      borderRadius: 20,
+      padding: compact ? "18px 20px" : "22px 24px",
       display: "flex",
-      flexDirection: "column",
-      gap: compact ? 12 : 16,
-      boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)",
-      transition: "all 0.2s ease",
-      cursor: "pointer",
+      alignItems: "center",
+      gap: 16,
+      boxShadow: "0 2px 12px rgba(99,102,241,0.06), 0 1px 3px rgba(0,0,0,0.04)",
+      transition: "all 0.22s ease",
+      cursor: "default",
+      position: "relative",
+      overflow: "hidden",
     }}
     onMouseEnter={(e) => {
-      e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)";
+      e.currentTarget.style.boxShadow = `0 8px 28px ${color}20, 0 2px 8px rgba(0,0,0,0.06)`;
       e.currentTarget.style.transform = "translateY(-2px)";
     }}
     onMouseLeave={(e) => {
-      e.currentTarget.style.boxShadow = "0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02)";
+      e.currentTarget.style.boxShadow = "0 2px 12px rgba(99,102,241,0.06), 0 1px 3px rgba(0,0,0,0.04)";
       e.currentTarget.style.transform = "translateY(0)";
     }}>
-      
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <SquareIcon icon={icon} color={color} size={compact ? 44 : 56} />
-        <div style={{ flex: 1 }}>
-          <div style={{ 
-            fontSize: 11, 
-            color: COLORS.textLight, 
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: 0.5,
-            marginBottom: 4,
-          }}>
-            {label}
-          </div>
-          <div style={{ 
-            fontSize: compact ? 24 : 32, 
-            fontWeight: 700, 
-            color: COLORS.text,
-            lineHeight: 1,
-            fontFamily: "'Inter', -apple-system, system-ui, sans-serif",
-          }}>
-            {typeof value === "number" ? value.toLocaleString("es-CL") : value}
-            {sub && (
-              <span style={{ 
-                fontSize: compact ? 11 : 13, 
-                color: COLORS.textMuted, 
-                fontWeight: 500,
-                marginLeft: 6,
-              }}>
-                {sub}
-              </span>
-            )}
-          </div>
+      {/* Decoración fondo círculo */}
+      <div style={{
+        position: "absolute", right: -16, top: -16,
+        width: 80, height: 80,
+        borderRadius: "50%",
+        background: `${color}10`,
+        pointerEvents: "none",
+      }} />
+      {/* Ícono */}
+      <div style={{
+        width: compact ? 44 : 52,
+        height: compact ? 44 : 52,
+        borderRadius: 14,
+        background: `${color}18`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: compact ? 20 : 24,
+        flexShrink: 0,
+      }}>
+        {icon}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{
+          fontSize: 11,
+          color: COLORS.textMuted,
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: 0.8,
+          marginBottom: 4,
+        }}>
+          {label}
+        </div>
+        <div style={{
+          fontSize: compact ? 22 : 28,
+          fontWeight: 800,
+          color: COLORS.text,
+          lineHeight: 1.1,
+          letterSpacing: "-0.5px",
+        }}>
+          {typeof value === "number" ? value.toLocaleString("es-CL") : value}
+          {sub && (
+            <span style={{
+              fontSize: compact ? 11 : 12,
+              color: COLORS.textMuted,
+              fontWeight: 500,
+              marginLeft: 5,
+              letterSpacing: 0,
+            }}>
+              {sub}
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -295,14 +317,15 @@ function StatusBadge({ label, value, color, icon }) {
       gap: 16,
       padding: "16px 20px",
       background: COLORS.white,
-      borderRadius: 12,
+      borderRadius: 16,
       border: `1px solid ${COLORS.borderLight}`,
+      boxShadow: "0 2px 12px rgba(99,102,241,0.06), 0 1px 3px rgba(0,0,0,0.04)",
     }}>
       <div style={{
         width: 48,
         height: 48,
         background: color,
-        borderRadius: 10,
+        borderRadius: 12,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -337,32 +360,42 @@ function StatusBadge({ label, value, color, icon }) {
 // Sección de título limpia
 function SectionTitle({ children, count, action, icon }) {
   return (
-    <div style={{ 
-      display: "flex", 
-      alignItems: "center", 
+    <div style={{
+      display: "flex",
+      alignItems: "center",
       justifyContent: "space-between",
-      marginBottom: 20,
-      marginTop: 32,
+      marginBottom: 16,
+      marginTop: 28,
     }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {icon && <span style={{ fontSize: 20 }}>{icon}</span>}
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        {icon && (
+          <span style={{
+            fontSize: 16,
+            width: 32, height: 32,
+            background: `${COLORS.primary}15`,
+            borderRadius: 9,
+            display: "inline-flex", alignItems: "center", justifyContent: "center",
+          }}>
+            {icon}
+          </span>
+        )}
         <h2 style={{
-          fontSize: 20,
+          fontSize: 17,
           fontWeight: 700,
           color: COLORS.text,
           margin: 0,
-          fontFamily: "'Inter', -apple-system, system-ui, sans-serif",
+          letterSpacing: "-0.3px",
         }}>
           {children}
         </h2>
-        {count && (
+        {count !== undefined && (
           <span style={{
-            background: COLORS.borderLight,
-            color: COLORS.textMuted,
-            padding: "4px 10px",
-            borderRadius: 6,
-            fontSize: 12,
-            fontWeight: 600,
+            background: `${COLORS.primary}15`,
+            color: COLORS.primary,
+            padding: "3px 10px",
+            borderRadius: 20,
+            fontSize: 11,
+            fontWeight: 700,
           }}>
             {count}
           </span>
@@ -370,18 +403,19 @@ function SectionTitle({ children, count, action, icon }) {
       </div>
       {action && (
         <button style={{
-          background: "transparent",
+          background: `${COLORS.primary}12`,
           color: COLORS.primary,
           border: "none",
-          fontSize: 14,
-          fontWeight: 600,
+          fontSize: 12,
+          fontWeight: 700,
           cursor: "pointer",
-          padding: "6px 12px",
-          borderRadius: 6,
-          transition: "background 0.2s ease",
+          padding: "6px 14px",
+          borderRadius: 20,
+          transition: "all 0.2s ease",
+          letterSpacing: 0.3,
         }}
-        onMouseEnter={(e) => e.currentTarget.style.background = COLORS.borderLight}
-        onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}>
+        onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.primary; e.currentTarget.style.color = "#fff"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = `${COLORS.primary}12`; e.currentTarget.style.color = COLORS.primary; }}>
           {action}
         </button>
       )}
@@ -395,19 +429,20 @@ function CustomTooltip({ active, payload }) {
   const data = payload[0];
   return (
     <div style={{
-      background: COLORS.white,
-      border: `1px solid ${COLORS.border}`,
-      borderRadius: 8,
-      padding: "10px 14px",
-      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+      background: COLORS.sidebar,
+      border: "none",
+      borderRadius: 14,
+      padding: "10px 16px",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
     }}>
-      <div style={{ fontSize: 12, color: COLORS.textMuted, marginBottom: 4, fontWeight: 500 }}>
+      <div style={{ fontSize: 11, color: "#8b8fa8", marginBottom: 4, fontWeight: 500 }}>
         {data.payload.name || data.name}
       </div>
-      <div style={{ 
-        fontSize: 18, 
-        fontWeight: 700, 
+      <div style={{
+        fontSize: 20,
+        fontWeight: 800,
         color: data.color || COLORS.primary,
+        letterSpacing: "-0.5px",
       }}>
         {(data.value || data.payload.qty || data.payload.value || 0).toLocaleString("es-CL")}
       </div>
@@ -421,25 +456,25 @@ function DataTable({ data, columns, maxRows = 10 }) {
   const display = showAll ? data : data.slice(0, maxRows);
 
   return (
-    <div style={{ 
+    <div style={{
       background: COLORS.white,
-      borderRadius: 12,
+      borderRadius: 18,
       overflow: "hidden",
-      border: `1px solid ${COLORS.border}`,
-      boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+      border: `1px solid ${COLORS.borderLight}`,
+      boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
     }}>
       {/* Header */}
       <div style={{
         display: "grid",
         gridTemplateColumns: columns.map(c => c.width || "1fr").join(" "),
         columnGap: 24,
-        background: COLORS.bg,
-        borderBottom: `1px solid ${COLORS.border}`,
-        padding: "14px 20px",
-        fontWeight: 600,
+        background: `${COLORS.primary}08`,
+        borderBottom: `1px solid ${COLORS.borderLight}`,
+        padding: "13px 20px",
+        fontWeight: 700,
         fontSize: 11,
-        color: COLORS.textMuted,
-        letterSpacing: 0.5,
+        color: COLORS.primary,
+        letterSpacing: 0.8,
         textTransform: "uppercase",
       }}>
         {columns.map((col) => (
@@ -455,18 +490,18 @@ function DataTable({ data, columns, maxRows = 10 }) {
           display: "grid",
           gridTemplateColumns: columns.map(c => c.width || "1fr").join(" "),
           columnGap: 24,
-          padding: "14px 20px",
+          padding: "13px 20px",
           borderBottom: i < display.length - 1 ? `1px solid ${COLORS.borderLight}` : "none",
           transition: "background 0.15s ease",
         }}
-        onMouseEnter={(e) => e.currentTarget.style.background = COLORS.bg}
+        onMouseEnter={(e) => e.currentTarget.style.background = `${COLORS.primary}05`}
         onMouseLeave={(e) => e.currentTarget.style.background = COLORS.white}>
           {columns.map((col) => {
             const val = row[col.key];
             return (
-              <div key={col.key} style={{ 
+              <div key={col.key} style={{
                 textAlign: col.align || "left",
-                fontSize: 14,
+                fontSize: 13.5,
                 color: col.highlight ? COLORS.text : COLORS.textMuted,
                 fontWeight: col.highlight ? 600 : 400,
                 fontFamily: col.mono ? "'SF Mono', 'Monaco', monospace" : "inherit",
@@ -484,21 +519,22 @@ function DataTable({ data, columns, maxRows = 10 }) {
           padding: "14px 20px",
           textAlign: "center",
           borderTop: `1px solid ${COLORS.borderLight}`,
-          background: COLORS.bg,
+          background: `${COLORS.primary}05`,
         }}>
           <button onClick={() => setShowAll(!showAll)} style={{
             background: COLORS.primary,
             color: COLORS.white,
             border: "none",
-            padding: "8px 20px",
-            borderRadius: 8,
+            padding: "8px 22px",
+            borderRadius: 10,
             fontSize: 13,
             fontWeight: 600,
             cursor: "pointer",
-            transition: "background 0.2s ease",
+            transition: "all 0.2s ease",
+            boxShadow: `0 4px 12px ${COLORS.primary}40`,
           }}
-          onMouseEnter={(e) => e.currentTarget.style.background = COLORS.primaryDark}
-          onMouseLeave={(e) => e.currentTarget.style.background = COLORS.primary}>
+          onMouseEnter={(e) => { e.currentTarget.style.background = COLORS.primaryDark; e.currentTarget.style.transform = "translateY(-1px)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = COLORS.primary; e.currentTarget.style.transform = "translateY(0)"; }}>
             {showAll ? "Mostrar menos" : `Ver ${data.length - maxRows} más`}
           </button>
         </div>
@@ -631,10 +667,10 @@ function InventoryDataTable({ data }) {
       
       <div style={{
         background: COLORS.white,
-        borderRadius: 12,
+        borderRadius: 20,
         padding: 24,
-        border: `1px solid ${COLORS.border}`,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        border: `1px solid ${COLORS.borderLight}`,
+        boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
         marginBottom: 24,
       }}>
         {/* Barra de búsqueda */}
@@ -647,14 +683,16 @@ function InventoryDataTable({ data }) {
             style={{
               width: "100%",
               padding: "12px 16px",
-              borderRadius: 8,
-              border: `1px solid ${COLORS.border}`,
+              borderRadius: 12,
+              border: `1.5px solid ${COLORS.borderLight}`,
               fontSize: 14,
               color: COLORS.text,
               transition: "border-color 0.2s ease",
+              background: COLORS.bg,
+              boxSizing: "border-box",
             }}
             onFocus={(e) => e.target.style.borderColor = COLORS.primary}
-            onBlur={(e) => e.target.style.borderColor = COLORS.border}
+            onBlur={(e) => e.target.style.borderColor = COLORS.borderLight}
           />
         </div>
 
@@ -1180,90 +1218,127 @@ export default function App() {
       display: "flex",
     }}>
       
-      {/* Sidebar */}
+      {/* Sidebar oscuro ultra-delgado — solo íconos */}
       <div style={{
-        width: 240,
+        width: 72,
+        minWidth: 72,
         background: COLORS.sidebar,
-        borderRight: `1px solid ${COLORS.border}`,
-        padding: "24px 0",
+        padding: "20px 0",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
+        gap: 0,
+        position: "sticky",
+        top: 0,
+        height: "100vh",
+        boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
+        zIndex: 10,
       }}>
-        {/* Logo */}
-        <div style={{ 
-          padding: "0 24px 32px 24px",
-          borderBottom: `1px solid ${COLORS.border}`,
+        {/* Logo cruz roja */}
+        <div style={{
+          width: 40, height: 40,
+          background: COLORS.primary,
+          borderRadius: 12,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          marginBottom: 32,
+          flexShrink: 0,
         }}>
-          <img
-            src="/logo-buin-paine.png"
-            alt="Hospital Buin Paine"
-            style={{ width: "100%", maxWidth: 160, display: "block" }}
-          />
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="8" y="1" width="6" height="20" rx="2" fill="white"/>
+            <rect x="1" y="8" width="20" height="6" rx="2" fill="white"/>
+          </svg>
         </div>
 
-        {/* Nav Items */}
-        <div style={{ flex: 1, padding: "24px 16px" }}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.name}
-              onClick={() => setActiveTab(tab.name)}
-              style={{
-                width: "100%",
-                background: activeTab === tab.name ? `${COLORS.primary}10` : "transparent",
-                color: activeTab === tab.name ? COLORS.primary : COLORS.textMuted,
-                border: "none",
-                padding: "12px 16px",
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                marginBottom: 4,
-                textAlign: "left",
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== tab.name) {
-                  e.currentTarget.style.background = COLORS.white;
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== tab.name) {
-                  e.currentTarget.style.background = "transparent";
-                }
-              }}>
-              <span style={{ fontSize: 18 }}>{tab.icon}</span>
-              <span>{tab.name}</span>
-            </button>
-          ))}
+        {/* Nav ítems — solo íconos con tooltip */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, width: "100%" }}>
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.name;
+            return (
+              <button
+                key={tab.name}
+                onClick={() => setActiveTab(tab.name)}
+                title={tab.name}
+                style={{
+                  width: 48, height: 48,
+                  background: isActive ? COLORS.primary : "transparent",
+                  border: "none",
+                  borderRadius: 14,
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 20,
+                  transition: "all 0.18s ease",
+                  color: isActive ? "#fff" : COLORS.textSidebar,
+                  boxShadow: isActive ? `0 4px 14px ${COLORS.primary}55` : "none",
+                  marginBottom: 2,
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) e.currentTarget.style.background = COLORS.sidebarActive;
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) e.currentTarget.style.background = "transparent";
+                }}
+              >
+                {tab.icon}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Logo hospital abajo */}
+        <div style={{ padding: "16px 0 4px 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img
+            src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+            alt="Hospital Buin Paine"
+            style={{ width: 40, height: 40, objectFit: "contain", borderRadius: 8, opacity: 0.85 }}
+          />
         </div>
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, overflow: "auto" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 40px" }}>
-          
-          {/* Header */}
-          <div style={{ marginBottom: 32 }}>
-            <h1 style={{ 
-              fontSize: 32, 
-              fontWeight: 700, 
-              margin: 0,
-              color: COLORS.text,
-              fontFamily: "'Inter', sans-serif",
+      <div style={{ flex: 1, overflow: "auto", background: COLORS.bg }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "36px 40px" }}>
+
+          {/* Header estilo "Overview" */}
+          <div style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <h1 style={{
+                fontSize: 30,
+                fontWeight: 800,
+                margin: 0,
+                color: COLORS.text,
+                letterSpacing: "-0.5px",
+              }}>
+                {activeTab === "Resumen" ? "Resumen General" :
+                 activeTab === "Por Familia" ? "Análisis por Familia" :
+                 activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
+                 activeTab === "Por Piso" ? "Distribución por Piso" :
+                 activeTab === "Por Servicio" ? "Análisis por Servicio" :
+                 activeTab === "Por Producto" ? "Top Productos" :
+                 activeTab === "Por Fecha" ? "Cronograma de Instalación" :
+                 "Especificaciones Técnicas"}
+              </h1>
+              <p style={{
+                fontSize: 13,
+                color: COLORS.textMuted,
+                margin: "6px 0 0 0",
+                fontWeight: 400,
+              }}>
+                Dashboard Mobiliario No Clínico — Hospital Buin Paine
+              </p>
+            </div>
+            {/* Badge tab activo */}
+            <div style={{
+              background: `${COLORS.primary}15`,
+              color: COLORS.primary,
+              padding: "6px 14px",
+              borderRadius: 20,
+              fontSize: 13,
+              fontWeight: 600,
+              display: "flex", alignItems: "center", gap: 6,
             }}>
-              Dashboard Mobiliario No Clínico
-            </h1>
-            <p style={{ 
-              fontSize: 14, 
-              color: COLORS.textMuted, 
-              margin: "8px 0 0 0",
-              fontWeight: 500,
-            }}>
-              Hospital Buin Paine • Cronograma Dominion
-            </p>
+              <span>{tabs.find(t => t.name === activeTab)?.icon}</span>
+              <span>{activeTab}</span>
+            </div>
           </div>
 
           {/* Contenido */}
@@ -1345,10 +1420,10 @@ export default function App() {
                 {/* Pie Chart */}
                 <div style={{
                   background: COLORS.white,
-                  borderRadius: 12,
+                  borderRadius: 18,
                   padding: 24,
-                  border: `1px solid ${COLORS.border}`,
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                  border: `1px solid ${COLORS.borderLight}`,
+                  boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 }}>
                   <h3 style={{ 
                     fontSize: 16, 
@@ -1386,14 +1461,14 @@ export default function App() {
                 {/* Bar Chart */}
                 <div style={{
                   background: COLORS.white,
-                  borderRadius: 12,
+                  borderRadius: 18,
                   padding: 24,
-                  border: `1px solid ${COLORS.border}`,
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                  border: `1px solid ${COLORS.borderLight}`,
+                  boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 }}>
-                  <h3 style={{ 
-                    fontSize: 16, 
-                    fontWeight: 700, 
+                  <h3 style={{
+                    fontSize: 16,
+                    fontWeight: 700,
                     color: COLORS.text, 
                     marginBottom: 20,
                     marginTop: 0,
@@ -1460,10 +1535,10 @@ export default function App() {
               }}>
                 <div style={{
                   background: COLORS.white,
-                  borderRadius: 12,
+                  borderRadius: 18,
                   padding: 24,
-                  border: `1px solid ${COLORS.border}`,
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                  border: `1px solid ${COLORS.borderLight}`,
+                  boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 }}>
                   <ResponsiveContainer width="100%" height={320}>
                     <PieChart>
@@ -1548,10 +1623,10 @@ export default function App() {
 
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={280}>
@@ -1603,10 +1678,10 @@ export default function App() {
               
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={320}>
@@ -1674,10 +1749,10 @@ export default function App() {
               
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={560}>
@@ -1732,10 +1807,10 @@ export default function App() {
               
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={600}>
@@ -1838,10 +1913,10 @@ export default function App() {
               <SectionTitle>Distribución Mensual</SectionTitle>
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={300}>
@@ -1890,10 +1965,10 @@ export default function App() {
               <SectionTitle>Top 5 Semanas con Más Instalaciones</SectionTitle>
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 24,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 24,
               }}>
                 <ResponsiveContainer width="100%" height={280}>
@@ -1943,7 +2018,7 @@ export default function App() {
               <div style={{
                 background: `${COLORS.orange}10`,
                 border: `1px solid ${COLORS.orange}40`,
-                borderRadius: 12,
+                borderRadius: 18,
                 padding: 20,
                 display: "flex",
                 alignItems: "flex-start",
@@ -1991,14 +2066,14 @@ export default function App() {
               {/* Barra de búsqueda + chips en una sola fila */}
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                borderRadius: 18,
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 marginBottom: 16,
                 display: "flex",
                 alignItems: "center",
                 overflow: "hidden",
-                height: 48,
+                height: 52,
               }}>
                 {/* Input fijo a la izquierda */}
                 <div style={{
@@ -2062,9 +2137,9 @@ export default function App() {
               {/* Visor PDF — ancho completo */}
               <div style={{
                 background: COLORS.white,
-                borderRadius: 12,
-                border: `1px solid ${COLORS.border}`,
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                borderRadius: 18,
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
@@ -2085,7 +2160,7 @@ export default function App() {
                       <span style={{ color: COLORS.textMuted }}>—</span>
                       {EETT_FILES.find(f => f.file === selectedEETT)?.name}
                     </div>
-                    <PdfViewer key={selectedEETT} url={`/eett/${encodeURIComponent(selectedEETT)}`} />
+                    <PdfViewer key={selectedEETT} url={`${import.meta.env.BASE_URL}eett/${encodeURIComponent(selectedEETT)}`} />
                   </>
                 ) : (
                   <div style={{
