@@ -1389,22 +1389,22 @@ export default function App() {
       }}>
         {/* Logo Hospital Buin Paine — parte superior del sidebar */}
         <div style={{
-          width: 48, height: 48,
-          borderRadius: 14,
+          width: 64, height: 64,
+          borderRadius: 16,
           display: "flex", alignItems: "center", justifyContent: "center",
-          marginBottom: 24,
+          marginBottom: 20,
           flexShrink: 0,
-          background: "#ffffff18",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+          background: "#ffffff22",
+          boxShadow: "0 2px 16px rgba(0,0,0,0.30)",
           padding: 4,
         }}>
           <img
             src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
             alt="Hospital Buin Paine"
             style={{
-              width: 40, height: 40,
+              width: 56, height: 56,
               objectFit: "contain",
-              borderRadius: 10,
+              borderRadius: 12,
               display: "block",
             }}
           />
