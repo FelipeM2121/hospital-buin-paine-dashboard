@@ -154,11 +154,11 @@ const SUMMARY = {
   },
 };
 
-// Paleta Billy - colores limpios y profesionales
+// Paleta branding Hospital Buin Paine
 const COLORS = {
-  primary: "#6366f1",       // Violeta indigo (accent principal)
-  primaryDark: "#4f46e5",
-  primaryLight: "#a5b4fc",
+  primary: "#00b4d8",       // Cyan Hospital Buin Paine
+  primaryDark: "#0090b0",
+  primaryLight: "#67d9f0",
   green: "#10b981",         // Verde esmeralda
   greenLight: "#6ee7b7",
   orange: "#f59e0b",        // Ámbar
@@ -166,46 +166,46 @@ const COLORS = {
   red: "#ef4444",           // Rojo alerta
   redLight: "#fca5a5",
   purple: "#8b5cf6",
-  blue: "#3b82f6",
-  cyan: "#06b6d4",
+  blue: "#1b3a5c",          // Azul oscuro Hospital Buin Paine
+  cyan: "#00b4d8",          // Cyan Hospital Buin Paine
 
   // Neutrales — estilo dark sidebar + light content
-  bg: "#f4f5fa",            // Fondo general gris muy claro
-  sidebar: "#12121f",       // Sidebar oscuro navy
-  sidebarActive: "#1e1e30", // Item activo sidebar
+  bg: "#f0f6fa",            // Fondo con tinte cyan suave
+  sidebar: "#0f1e2e",       // Azul marino oscuro del logo
+  sidebarActive: "#162b40", // Item activo sidebar
   white: "#ffffff",
   card: "#ffffff",
-  border: "#e5e8ef",
-  borderLight: "#f1f3f9",
+  border: "#d6e8f0",
+  borderLight: "#e8f4fa",
 
   // Textos
-  text: "#1a1d2e",          // Casi negro
-  textMuted: "#6b7280",     // Gris medio
-  textLight: "#9ca3af",     // Gris claro
-  textSidebar: "#8b8fa8",   // Texto sidebar inactivo
+  text: "#0f1e2e",          // Azul marino del logo
+  textMuted: "#4a6580",     // Azul grisáceo
+  textLight: "#8aaec4",     // Azul claro
+  textSidebar: "#7aa8c4",   // Texto sidebar inactivo
   textSidebarActive: "#ffffff",
 };
 
 const CHART_COLORS = [
-  "#6366f1",
-  "#8b5cf6",
-  "#a78bfa",
+  "#00b4d8",
+  "#0090b0",
+  "#67d9f0",
+  "#1b3a5c",
   "#10b981",
-  "#3b82f6",
   "#f59e0b",
-  "#ec4899",
-  "#06b6d4",
+  "#8b5cf6",
+  "#ef4444",
   "#14b8a6",
   "#f97316",
-  "#84cc16",
+  "#3b82f6",
   "#e879f9",
 ];
 
-const PIE_FAMILIA_COLORS = { 
-  Silla: COLORS.primary,
-  Mesa: COLORS.orange, 
-  Otro: COLORS.green, 
-  Mobiliario: COLORS.purple 
+const PIE_FAMILIA_COLORS = {
+  Silla: "#00b4d8",
+  Mesa: "#f59e0b",
+  Otro: "#10b981",
+  Mobiliario: "#1b3a5c"
 };
 
 // ── SVG Icons estilo glassmorphism / cloud (ref: Dribbble #6081093) ──────────
@@ -1387,27 +1387,21 @@ export default function App() {
         boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
         zIndex: 10,
       }}>
-        {/* Logo Hospital Buin Paine — parte superior del sidebar */}
+        {/* Ícono H — Hospital Buin Paine */}
         <div style={{
-          width: 64, height: 64,
-          borderRadius: 16,
+          width: 52, height: 52,
+          borderRadius: 15,
           display: "flex", alignItems: "center", justifyContent: "center",
           marginBottom: 20,
           flexShrink: 0,
-          background: "#ffffff22",
-          boxShadow: "0 2px 16px rgba(0,0,0,0.30)",
-          padding: 4,
+          background: "linear-gradient(135deg, #00b4d8 0%, #0090b0 100%)",
+          boxShadow: "0 4px 18px rgba(0,180,216,0.45)",
         }}>
-          <img
-            src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
-            alt="Hospital Buin Paine"
-            style={{
-              width: 56, height: 56,
-              objectFit: "contain",
-              borderRadius: 12,
-              display: "block",
-            }}
-          />
+          <svg viewBox="0 0 32 32" fill="none" style={{ width: 28, height: 28 }}>
+            <rect x="5" y="6" width="6" height="20" rx="2" fill="white" fillOpacity="0.95"/>
+            <rect x="13" y="13" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.95"/>
+            <rect x="21" y="6" width="6" height="20" rx="2" fill="white" fillOpacity="0.95"/>
+          </svg>
         </div>
 
         {/* Nav ítems — SVG glass icons con tooltip */}
@@ -1471,31 +1465,47 @@ export default function App() {
 
           {/* Header estilo "Overview" */}
           <div style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-            <div>
-              <h1 style={{
-                fontSize: 30,
-                fontWeight: 800,
-                margin: 0,
-                color: COLORS.text,
-                letterSpacing: "-0.5px",
-              }}>
-                {activeTab === "Resumen" ? "Resumen General" :
-                 activeTab === "Por Familia" ? "Análisis por Familia" :
-                 activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
-                 activeTab === "Por Piso" ? "Distribución por Piso" :
-                 activeTab === "Por Servicio" ? "Análisis por Servicio" :
-                 activeTab === "Por Producto" ? "Top Productos" :
-                 activeTab === "Por Fecha" ? "Cronograma de Instalación" :
-                 "Especificaciones Técnicas"}
-              </h1>
-              <p style={{
-                fontSize: 13,
-                color: COLORS.textMuted,
-                margin: "6px 0 0 0",
-                fontWeight: 400,
-              }}>
-                Dashboard Mobiliario No Clínico — Hospital Buin Paine
-              </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              {/* Logo solo en tab Resumen */}
+              {activeTab === "Resumen" && (
+                <img
+                  src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+                  alt="Hospital Buin Paine"
+                  style={{
+                    height: 72,
+                    width: "auto",
+                    objectFit: "contain",
+                    display: "block",
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+              <div>
+                <h1 style={{
+                  fontSize: 30,
+                  fontWeight: 800,
+                  margin: 0,
+                  color: COLORS.text,
+                  letterSpacing: "-0.5px",
+                }}>
+                  {activeTab === "Resumen" ? "Resumen General" :
+                   activeTab === "Por Familia" ? "Análisis por Familia" :
+                   activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
+                   activeTab === "Por Piso" ? "Distribución por Piso" :
+                   activeTab === "Por Servicio" ? "Análisis por Servicio" :
+                   activeTab === "Por Producto" ? "Top Productos" :
+                   activeTab === "Por Fecha" ? "Cronograma de Instalación" :
+                   "Especificaciones Técnicas"}
+                </h1>
+                <p style={{
+                  fontSize: 13,
+                  color: COLORS.textMuted,
+                  margin: "6px 0 0 0",
+                  fontWeight: 400,
+                }}>
+                  Dashboard Mobiliario No Clínico — Hospital Buin Paine
+                </p>
+              </div>
             </div>
             {/* Badge tab activo */}
             {(() => {
