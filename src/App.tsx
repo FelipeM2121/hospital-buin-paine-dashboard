@@ -1387,20 +1387,27 @@ export default function App() {
         boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
         zIndex: 10,
       }}>
-        {/* Logo cruz — glass style */}
+        {/* Logo Hospital Buin Paine — parte superior del sidebar */}
         <div style={{
-          width: 44, height: 44,
-          background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+          width: 48, height: 48,
           borderRadius: 14,
           display: "flex", alignItems: "center", justifyContent: "center",
-          marginBottom: 28,
+          marginBottom: 24,
           flexShrink: 0,
-          boxShadow: `0 4px 16px ${COLORS.primary}60`,
+          background: "#ffffff18",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
+          padding: 4,
         }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="9" y="2" width="6" height="20" rx="2.5" fill="white" fillOpacity="0.95"/>
-            <rect x="2" y="9" width="20" height="6" rx="2.5" fill="white" fillOpacity="0.95"/>
-          </svg>
+          <img
+            src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+            alt="Hospital Buin Paine"
+            style={{
+              width: 40, height: 40,
+              objectFit: "contain",
+              borderRadius: 10,
+              display: "block",
+            }}
+          />
         </div>
 
         {/* Nav ítems — SVG glass icons con tooltip */}
@@ -1449,13 +1456,12 @@ export default function App() {
           })}
         </div>
 
-        {/* Logo hospital abajo */}
+        {/* Separador visual inferior */}
         <div style={{ padding: "16px 0 4px 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img
-            src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
-            alt="Hospital Buin Paine"
-            style={{ width: 40, height: 40, objectFit: "contain", borderRadius: 8, opacity: 0.85 }}
-          />
+          <div style={{
+            width: 32, height: 2, borderRadius: 2,
+            background: "rgba(255,255,255,0.12)",
+          }} />
         </div>
       </div>
 
