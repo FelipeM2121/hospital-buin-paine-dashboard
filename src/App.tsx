@@ -1466,20 +1466,18 @@ export default function App() {
           {/* Header estilo "Overview" */}
           <div style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-              {/* Logo solo en tab Resumen */}
-              {activeTab === "Resumen" && (
-                <img
-                  src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
-                  alt="Hospital Buin Paine"
-                  style={{
-                    height: 72,
-                    width: "auto",
-                    objectFit: "contain",
-                    display: "block",
-                    flexShrink: 0,
-                  }}
-                />
-              )}
+              {/* Logo Hospital Buin Paine — visible en todos los tabs */}
+              <img
+                src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+                alt="Hospital Buin Paine"
+                style={{
+                  height: 72,
+                  width: "auto",
+                  objectFit: "contain",
+                  display: "block",
+                  flexShrink: 0,
+                }}
+              />
               <div>
                 <h1 style={{
                   fontSize: 30,
