@@ -208,21 +208,170 @@ const PIE_FAMILIA_COLORS = {
   Mobiliario: COLORS.purple 
 };
 
-// Componente de icono cuadrado moderno (NO circular como WhatsApp)
-function SquareIcon({ icon, color, size = 56 }) {
+// ── SVG Icons estilo glassmorphism / cloud (ref: Dribbble #6081093) ──────────
+// Cada icono es SVG puro: formas blancas semitransparentes con efecto glass
+
+const Icons = {
+  // Resumen — gráfico de barras
+  chart: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="12" width="4" height="9" rx="1.5" fill="white" fillOpacity="0.9"/>
+      <rect x="10" y="7" width="4" height="14" rx="1.5" fill="white" fillOpacity="0.75"/>
+      <rect x="17" y="3" width="4" height="18" rx="1.5" fill="white" fillOpacity="0.6"/>
+      <rect x="3" y="3" width="18" height="1.5" rx="0.75" fill="white" fillOpacity="0.3"/>
+    </svg>
+  ),
+  // Por Familia — categorías / carpeta
+  folder: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 7C2 5.9 2.9 5 4 5H9.5L11.5 7H20C21.1 7 22 7.9 22 9V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V7Z" fill="white" fillOpacity="0.85"/>
+      <path d="M2 9H22" stroke="white" strokeOpacity="0.4" strokeWidth="1.5"/>
+    </svg>
+  ),
+  // Por Proveedor — edificio empresa
+  building: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="18" height="18" rx="2" fill="white" fillOpacity="0.2"/>
+      <rect x="3" y="3" width="18" height="5" rx="2" fill="white" fillOpacity="0.85"/>
+      <rect x="6" y="10" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.9"/>
+      <rect x="10.5" y="10" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.9"/>
+      <rect x="15" y="10" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.9"/>
+      <rect x="6" y="15" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.75"/>
+      <rect x="10.5" y="15" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.75"/>
+      <rect x="15" y="15" width="3" height="3" rx="0.75" fill="white" fillOpacity="0.75"/>
+    </svg>
+  ),
+  // Por Piso — pisos / capas
+  layers: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3L22 8L12 13L2 8L12 3Z" fill="white" fillOpacity="0.9"/>
+      <path d="M2 12L12 17L22 12" stroke="white" strokeOpacity="0.75" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M2 16L12 21L22 16" stroke="white" strokeOpacity="0.55" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  ),
+  // Por Servicio — hospital / cruz
+  hospital: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="3" width="18" height="18" rx="3" fill="white" fillOpacity="0.2"/>
+      <rect x="10.5" y="5" width="3" height="14" rx="1.5" fill="white" fillOpacity="0.9"/>
+      <rect x="5" y="10.5" width="14" height="3" rx="1.5" fill="white" fillOpacity="0.9"/>
+    </svg>
+  ),
+  // Por Producto — caja / paquete
+  box: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 3L21 7.5V16.5L12 21L3 16.5V7.5L12 3Z" fill="white" fillOpacity="0.25"/>
+      <path d="M12 3L21 7.5L12 12L3 7.5L12 3Z" fill="white" fillOpacity="0.9"/>
+      <path d="M12 12V21" stroke="white" strokeOpacity="0.75" strokeWidth="1.5" strokeLinecap="round"/>
+      <path d="M21 7.5V16.5L12 21" stroke="white" strokeOpacity="0.65" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M3 7.5V16.5L12 21" stroke="white" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
+  // Por Fecha — calendario
+  calendar: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="5" width="18" height="16" rx="2.5" fill="white" fillOpacity="0.2"/>
+      <rect x="3" y="5" width="18" height="6" rx="2.5" fill="white" fillOpacity="0.85"/>
+      <rect x="6" y="3" width="2" height="4" rx="1" fill="white" fillOpacity="0.9"/>
+      <rect x="16" y="3" width="2" height="4" rx="1" fill="white" fillOpacity="0.9"/>
+      <rect x="6" y="14" width="2.5" height="2.5" rx="0.5" fill="white" fillOpacity="0.8"/>
+      <rect x="10.75" y="14" width="2.5" height="2.5" rx="0.5" fill="white" fillOpacity="0.8"/>
+      <rect x="15.5" y="14" width="2.5" height="2.5" rx="0.5" fill="white" fillOpacity="0.8"/>
+    </svg>
+  ),
+  // Esp. Técnicas — documento / especificación
+  document: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="2" width="16" height="20" rx="2.5" fill="white" fillOpacity="0.2"/>
+      <path d="M4 5.5C4 3.567 5.567 2 7.5 2H14L20 8V18.5C20 20.433 18.433 22 16.5 22H7.5C5.567 22 4 20.433 4 18.5V5.5Z" fill="white" fillOpacity="0.85"/>
+      <path d="M14 2L20 8H16C14.895 8 14 7.105 14 6V2Z" fill="white" fillOpacity="0.5"/>
+      <rect x="7" y="11" width="10" height="1.5" rx="0.75" fill="white" fillOpacity="0.4"/>
+      <rect x="7" y="14" width="7" height="1.5" rx="0.75" fill="white" fillOpacity="0.4"/>
+    </svg>
+  ),
+  // KPI — items / lista
+  list: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="5" width="18" height="14" rx="2.5" fill="white" fillOpacity="0.2"/>
+      <rect x="6" y="8" width="2" height="2" rx="0.5" fill="white" fillOpacity="0.9"/>
+      <rect x="10" y="8" width="8" height="2" rx="0.75" fill="white" fillOpacity="0.85"/>
+      <rect x="6" y="12" width="2" height="2" rx="0.5" fill="white" fillOpacity="0.9"/>
+      <rect x="10" y="12" width="8" height="2" rx="0.75" fill="white" fillOpacity="0.85"/>
+      <rect x="6" y="16" width="2" height="2" rx="0.5" fill="white" fillOpacity="0.9"/>
+      <rect x="10" y="16" width="5" height="2" rx="0.75" fill="white" fillOpacity="0.85"/>
+    </svg>
+  ),
+  // Unidades / cantidad
+  stack: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="15" width="18" height="6" rx="2" fill="white" fillOpacity="0.9"/>
+      <rect x="3" y="9" width="18" height="5" rx="2" fill="white" fillOpacity="0.7"/>
+      <rect x="3" y="3" width="18" height="5" rx="2" fill="white" fillOpacity="0.5"/>
+    </svg>
+  ),
+  // Recintos / ubicación
+  location: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="white" fillOpacity="0.85"/>
+      <circle cx="12" cy="9" r="3" fill="white" fillOpacity="0.4"/>
+    </svg>
+  ),
+  // Productos / tipos
+  tag: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3H11L21 13L13 21L3 11V3Z" fill="white" fillOpacity="0.85"/>
+      <circle cx="7.5" cy="7.5" r="1.5" fill="white" fillOpacity="0.4"/>
+    </svg>
+  ),
+  // Búsqueda / lupa
+  search: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="7" fill="white" fillOpacity="0.85"/>
+      <circle cx="11" cy="11" r="4" fill="white" fillOpacity="0.35"/>
+      <path d="M16.5 16.5L21 21" stroke="white" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round"/>
+    </svg>
+  ),
+};
+
+// Contenedor glass para iconos en sidebar (fondo del color activo o translúcido)
+function GlassIcon({ icon, color, size = 22, active = false }: { icon: React.ReactNode; color: string; size?: number; active?: boolean }) {
+  return (
+    <div style={{
+      width: size * 2,
+      height: size * 2,
+      background: active ? `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)` : `${color}22`,
+      borderRadius: 14,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      boxShadow: active ? `0 4px 16px ${color}55` : "none",
+      backdropFilter: "blur(8px)",
+      transition: "all 0.2s ease",
+    }}>
+      <div style={{ width: size, height: size, display: "flex" }}>
+        {icon}
+      </div>
+    </div>
+  );
+}
+
+// KPI icon container — glass colored box
+function KPIIcon({ icon, color, size = 52 }: { icon: React.ReactNode; color: string; size?: number }) {
   return (
     <div style={{
       width: size,
       height: size,
-      background: `linear-gradient(135deg, ${color} 0%, ${color}DD 100%)`,
-      borderRadius: 12,
+      borderRadius: 16,
+      background: `linear-gradient(135deg, ${color} 0%, ${color}bb 100%)`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      fontSize: size * 0.5,
-      boxShadow: `0 4px 12px ${color}30`,
+      flexShrink: 0,
+      boxShadow: `0 4px 16px ${color}40`,
     }}>
-      {icon}
+      <div style={{ width: size * 0.5, height: size * 0.5, display: "flex" }}>
+        {icon}
+      </div>
     </div>
   );
 }
@@ -260,17 +409,19 @@ function KPICard({ label, value, sub, icon, color = COLORS.primary, compact = fa
         background: `${color}10`,
         pointerEvents: "none",
       }} />
-      {/* Ícono */}
+      {/* Ícono glass */}
       <div style={{
         width: compact ? 44 : 52,
         height: compact ? 44 : 52,
         borderRadius: 14,
-        background: `${color}18`,
+        background: `linear-gradient(135deg, ${color} 0%, ${color}bb 100%)`,
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: compact ? 20 : 24,
         flexShrink: 0,
+        boxShadow: `0 4px 12px ${color}40`,
       }}>
-        {icon}
+        <div style={{ width: compact ? 22 : 26, height: compact ? 22 : 26, display: "flex" }}>
+          {icon}
+        </div>
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
@@ -324,16 +475,17 @@ function StatusBadge({ label, value, color, icon }) {
       <div style={{
         width: 48,
         height: 48,
-        background: color,
-        borderRadius: 12,
+        background: `linear-gradient(135deg, ${color} 0%, ${color}bb 100%)`,
+        borderRadius: 14,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: 20,
-        color: COLORS.white,
-        fontWeight: 700,
+        boxShadow: `0 4px 12px ${color}40`,
+        flexShrink: 0,
       }}>
-        {icon}
+        <div style={{ width: 24, height: 24, display: "flex" }}>
+          {icon}
+        </div>
       </div>
       <div style={{ flex: 1 }}>
         <div style={{ 
@@ -369,15 +521,17 @@ function SectionTitle({ children, count, action, icon }) {
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         {icon && (
-          <span style={{
-            fontSize: 16,
+          <div style={{
             width: 32, height: 32,
-            background: `${COLORS.primary}15`,
+            background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
             borderRadius: 9,
             display: "inline-flex", alignItems: "center", justifyContent: "center",
+            boxShadow: `0 3px 8px ${COLORS.primary}35`,
           }}>
-            {icon}
-          </span>
+            <div style={{ width: 16, height: 16, display: "flex" }}>
+              {icon}
+            </div>
+          </div>
         )}
         <h2 style={{
           fontSize: 17,
@@ -663,7 +817,7 @@ function InventoryDataTable({ data }) {
 
   return (
     <>
-      <SectionTitle icon="🔍">Datos Completos del Inventario</SectionTitle>
+      <SectionTitle icon={Icons.search}>Datos Completos del Inventario</SectionTitle>
       
       <div style={{
         background: COLORS.white,
@@ -1159,15 +1313,14 @@ export default function App() {
   const S = SUMMARY;
 
   const tabs = [
-    { name: "Resumen", icon: "📊" },
-    { name: "Por Familia", icon: "🗂️" },
-    { name: "Por Proveedor", icon: "🏢" },
-    { name: "Por Piso", icon: "🏗️" },
-    { name: "Por Servicio", icon: "🏥" },
-    { name: "Por Producto", icon: "📦" },
-
-    { name: "Por Fecha", icon: "📅" },
-    { name: "Esp. Técnicas", icon: "📋" },
+    { name: "Resumen",      icon: Icons.chart,    color: COLORS.primary },
+    { name: "Por Familia",  icon: Icons.folder,   color: COLORS.orange },
+    { name: "Por Proveedor",icon: Icons.building, color: COLORS.green },
+    { name: "Por Piso",     icon: Icons.layers,   color: COLORS.cyan },
+    { name: "Por Servicio", icon: Icons.hospital, color: COLORS.red },
+    { name: "Por Producto", icon: Icons.box,      color: COLORS.purple },
+    { name: "Por Fecha",    icon: Icons.calendar, color: "#f59e0b" },
+    { name: "Esp. Técnicas",icon: Icons.document, color: "#14b8a6" },
   ];
 
   const EETT_FILES = [
@@ -1234,23 +1387,24 @@ export default function App() {
         boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
         zIndex: 10,
       }}>
-        {/* Logo cruz roja */}
+        {/* Logo cruz — glass style */}
         <div style={{
-          width: 40, height: 40,
-          background: COLORS.primary,
-          borderRadius: 12,
+          width: 44, height: 44,
+          background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.primaryDark} 100%)`,
+          borderRadius: 14,
           display: "flex", alignItems: "center", justifyContent: "center",
-          marginBottom: 32,
+          marginBottom: 28,
           flexShrink: 0,
+          boxShadow: `0 4px 16px ${COLORS.primary}60`,
         }}>
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <rect x="8" y="1" width="6" height="20" rx="2" fill="white"/>
-            <rect x="1" y="8" width="20" height="6" rx="2" fill="white"/>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="2" width="6" height="20" rx="2.5" fill="white" fillOpacity="0.95"/>
+            <rect x="2" y="9" width="20" height="6" rx="2.5" fill="white" fillOpacity="0.95"/>
           </svg>
         </div>
 
-        {/* Nav ítems — solo íconos con tooltip */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, width: "100%" }}>
+        {/* Nav ítems — SVG glass icons con tooltip */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: "100%", paddingTop: 4 }}>
           {tabs.map((tab) => {
             const isActive = activeTab === tab.name;
             return (
@@ -1259,26 +1413,37 @@ export default function App() {
                 onClick={() => setActiveTab(tab.name)}
                 title={tab.name}
                 style={{
-                  width: 48, height: 48,
-                  background: isActive ? COLORS.primary : "transparent",
+                  width: 52, height: 52,
+                  background: isActive
+                    ? `linear-gradient(135deg, ${tab.color} 0%, ${tab.color}cc 100%)`
+                    : "transparent",
                   border: "none",
-                  borderRadius: 14,
+                  borderRadius: 15,
                   cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20,
                   transition: "all 0.18s ease",
-                  color: isActive ? "#fff" : COLORS.textSidebar,
-                  boxShadow: isActive ? `0 4px 14px ${COLORS.primary}55` : "none",
-                  marginBottom: 2,
+                  boxShadow: isActive ? `0 4px 16px ${tab.color}55` : "none",
+                  padding: 0,
+                  marginBottom: 0,
                 }}
                 onMouseEnter={(e) => {
-                  if (!isActive) e.currentTarget.style.background = COLORS.sidebarActive;
+                  if (!isActive) {
+                    e.currentTarget.style.background = `${tab.color}22`;
+                  }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) e.currentTarget.style.background = "transparent";
                 }}
               >
-                {tab.icon}
+                {/* SVG icon — white when active, colored-tint when inactive */}
+                <div style={{
+                  width: 26, height: 26,
+                  opacity: isActive ? 1 : 0.5,
+                  filter: isActive ? "none" : `drop-shadow(0 0 0 transparent)`,
+                  transition: "opacity 0.18s ease",
+                }}>
+                  {tab.icon}
+                </div>
               </button>
             );
           })}
@@ -1327,18 +1492,29 @@ export default function App() {
               </p>
             </div>
             {/* Badge tab activo */}
-            <div style={{
-              background: `${COLORS.primary}15`,
-              color: COLORS.primary,
-              padding: "6px 14px",
-              borderRadius: 20,
-              fontSize: 13,
-              fontWeight: 600,
-              display: "flex", alignItems: "center", gap: 6,
-            }}>
-              <span>{tabs.find(t => t.name === activeTab)?.icon}</span>
-              <span>{activeTab}</span>
-            </div>
+            {(() => {
+              const activeTabData = tabs.find(t => t.name === activeTab);
+              return (
+                <div style={{
+                  background: `${activeTabData?.color || COLORS.primary}18`,
+                  color: activeTabData?.color || COLORS.primary,
+                  padding: "8px 16px",
+                  borderRadius: 20,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  display: "flex", alignItems: "center", gap: 8,
+                  border: `1px solid ${activeTabData?.color || COLORS.primary}30`,
+                }}>
+                  <div style={{
+                    width: 18, height: 18, display: "flex",
+                    filter: `brightness(0) saturate(100%) invert(30%) sepia(80%) saturate(500%) hue-rotate(${activeTab === "Por Familia" ? "20" : activeTab === "Por Proveedor" ? "120" : activeTab === "Por Servicio" ? "0" : "230"}deg)`,
+                  }}>
+                    {activeTabData?.icon}
+                  </div>
+                  <span>{activeTab}</span>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Contenido */}
@@ -1351,33 +1527,33 @@ export default function App() {
                 gap: 16,
                 marginBottom: 32,
               }}>
-                <KPICard 
-                  label="Total Items" 
-                  value={S.totalItems} 
-                  sub="ítems" 
-                  icon="📝" 
-                  color={COLORS.primary} 
+                <KPICard
+                  label="Total Items"
+                  value={S.totalItems}
+                  sub="ítems"
+                  icon={Icons.list}
+                  color={COLORS.primary}
                 />
-                <KPICard 
-                  label="Total Unidades" 
-                  value={S.totalQty} 
-                  sub="unidades" 
-                  icon="📦" 
-                  color={COLORS.green} 
+                <KPICard
+                  label="Total Unidades"
+                  value={S.totalQty}
+                  sub="unidades"
+                  icon={Icons.stack}
+                  color={COLORS.green}
                 />
-                <KPICard 
-                  label="Recintos" 
-                  value={S.uniqueRecintos} 
-                  sub="espacios" 
-                  icon="🏢" 
-                  color={COLORS.orange} 
+                <KPICard
+                  label="Recintos"
+                  value={S.uniqueRecintos}
+                  sub="espacios"
+                  icon={Icons.location}
+                  color={COLORS.orange}
                 />
-                <KPICard 
-                  label="Productos" 
-                  value={S.uniqueNombres} 
-                  sub="tipos" 
-                  icon="🛋️" 
-                  color={COLORS.purple} 
+                <KPICard
+                  label="Productos"
+                  value={S.uniqueNombres}
+                  sub="tipos"
+                  icon={Icons.tag}
+                  color={COLORS.purple}
                 />
               </div>
 
@@ -1389,29 +1565,29 @@ export default function App() {
                 gap: 16,
                 marginBottom: 32,
               }}>
-                <StatusBadge 
-                  label="Familias" 
-                  value={S.familias} 
-                  color={COLORS.green} 
-                  icon="✓" 
+                <StatusBadge
+                  label="Familias"
+                  value={S.familias}
+                  color={COLORS.green}
+                  icon={Icons.folder}
                 />
-                <StatusBadge 
-                  label="Proveedores" 
-                  value={S.proveedores} 
-                  color={COLORS.orange} 
-                  icon="⚡" 
+                <StatusBadge
+                  label="Proveedores"
+                  value={S.proveedores}
+                  color={COLORS.orange}
+                  icon={Icons.building}
                 />
-                <StatusBadge 
-                  label="Servicios" 
-                  value={S.uniqueServicios} 
-                  color={COLORS.primary} 
-                  icon="🏥" 
+                <StatusBadge
+                  label="Servicios"
+                  value={S.uniqueServicios}
+                  color={COLORS.primary}
+                  icon={Icons.hospital}
                 />
-                <StatusBadge 
-                  label="Zonas" 
-                  value={S.uniqueZonas} 
-                  color={COLORS.purple} 
-                  icon="⚠" 
+                <StatusBadge
+                  label="Zonas"
+                  value={S.uniqueZonas}
+                  color={COLORS.purple}
+                  icon={Icons.layers}
                 />
               </div>
 
@@ -1506,12 +1682,12 @@ export default function App() {
                 marginBottom: 40,
               }}>
                 {S.byNombre.slice(0, 5).map((p, i) => (
-                  <KPICard 
-                    key={i} 
-                    label={p.name} 
-                    value={p.qty} 
-                    sub="uds" 
-                    icon={["🥇", "🥈", "🥉", "4", "5"][i]}
+                  <KPICard
+                    key={i}
+                    label={p.name}
+                    value={p.qty}
+                    sub="uds"
+                    icon={[Icons.tag, Icons.box, Icons.folder, Icons.stack, Icons.list][i]}
                     color={CHART_COLORS[i]}
                     compact
                   />
@@ -1569,7 +1745,7 @@ export default function App() {
                       label={f.name}
                       value={f.qty}
                       sub={`${((f.qty / S.totalQty) * 100).toFixed(1)}%`}
-                      icon={["💺", "🪑", "🛋️", "📦"][i]}
+                      icon={[Icons.tag, Icons.folder, Icons.box, Icons.stack][i]}
                       color={PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i]}
                       compact
                     />
@@ -1615,7 +1791,7 @@ export default function App() {
                     label={p.name}
                     value={p.qty}
                     sub={`${((p.qty / S.totalQty) * 100).toFixed(1)}%`}
-                    icon={["🥇", "🥈", "🥉"][i] || "🏢"}
+                    icon={[Icons.building, Icons.building, Icons.building][i] || Icons.building}
                     color={CHART_COLORS[i]}
                   />
                 ))}
@@ -1734,7 +1910,7 @@ export default function App() {
                     label={p.name} 
                     value={p.qty} 
                     sub="unidades" 
-                    icon={["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣"][p.piso - 1]}
+                    icon={Icons.layers}
                     color={CHART_COLORS[p.piso - 1]} 
                     compact
                   />
@@ -1866,45 +2042,45 @@ export default function App() {
 
           {activeTab === "Por Fecha" && (
             <>
-              <SectionTitle icon="📅">Cronograma de Instalación</SectionTitle>
-              
+              <SectionTitle icon={Icons.calendar}>Cronograma de Instalación</SectionTitle>
+
               {/* KPIs de fechas */}
-              <div style={{ 
-                display: "grid", 
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", 
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
                 gap: 16,
                 marginBottom: 32,
               }}>
-                <KPICard 
-                  label="Fecha Inicio" 
-                  value={S.fechaStats.fechaMin} 
-                  sub="primera instalación" 
-                  icon="🚀" 
-                  color={COLORS.green} 
+                <KPICard
+                  label="Fecha Inicio"
+                  value={S.fechaStats.fechaMin}
+                  sub="primera instalación"
+                  icon={Icons.calendar}
+                  color={COLORS.green}
                   compact
                 />
-                <KPICard 
-                  label="Fecha Término" 
-                  value={S.fechaStats.fechaMax} 
-                  sub="última instalación" 
-                  icon="🏁" 
-                  color={COLORS.orange} 
+                <KPICard
+                  label="Fecha Término"
+                  value={S.fechaStats.fechaMax}
+                  sub="última instalación"
+                  icon={Icons.calendar}
+                  color={COLORS.orange}
                   compact
                 />
-                <KPICard 
-                  label="Meses" 
-                  value={S.fechaStats.totalMeses} 
-                  sub="de instalación" 
-                  icon="📆" 
-                  color={COLORS.primary} 
+                <KPICard
+                  label="Meses"
+                  value={S.fechaStats.totalMeses}
+                  sub="de instalación"
+                  icon={Icons.chart}
+                  color={COLORS.primary}
                   compact
                 />
-                <KPICard 
-                  label="Semanas" 
-                  value={S.fechaStats.totalSemanas} 
-                  sub="programadas" 
-                  icon="📊" 
-                  color={COLORS.purple} 
+                <KPICard
+                  label="Semanas"
+                  value={S.fechaStats.totalSemanas}
+                  sub="programadas"
+                  icon={Icons.layers}
+                  color={COLORS.purple}
                   compact
                 />
               </div>
@@ -2009,7 +2185,7 @@ export default function App() {
                     label={d.name}
                     value={d.qty}
                     color={CHART_COLORS[i]}
-                    icon={["🥇", "🥈", "🥉", "4", "5"][i]}
+                    icon={Icons.calendar}
                   />
                 ))}
               </div>
@@ -2061,7 +2237,7 @@ export default function App() {
 
           {activeTab === "Esp. Técnicas" && (
             <>
-              <SectionTitle count={`${EETT_FILES.length}`}>Especificaciones Técnicas de Mobiliario</SectionTitle>
+              <SectionTitle count={`${EETT_FILES.length}`} icon={Icons.document}>Especificaciones Técnicas de Mobiliario</SectionTitle>
 
               {/* Barra de búsqueda + chips en una sola fila */}
               <div style={{
