@@ -1387,22 +1387,18 @@ export default function App() {
         boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
         zIndex: 10,
       }}>
-        {/* Ícono H — Hospital Buin Paine */}
-        <div style={{
-          width: 52, height: 52,
-          borderRadius: 15,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          marginBottom: 20,
-          flexShrink: 0,
-          background: "linear-gradient(135deg, #00b4d8 0%, #0090b0 100%)",
-          boxShadow: "0 4px 18px rgba(0,180,216,0.45)",
-        }}>
-          <svg viewBox="0 0 32 32" fill="none" style={{ width: 28, height: 28 }}>
-            <rect x="5" y="6" width="6" height="20" rx="2" fill="white" fillOpacity="0.95"/>
-            <rect x="13" y="13" width="6" height="6" rx="1.5" fill="white" fillOpacity="0.95"/>
-            <rect x="21" y="6" width="6" height="20" rx="2" fill="white" fillOpacity="0.95"/>
-          </svg>
-        </div>
+        {/* Logo Hospital Buin Paine — sidebar superior */}
+        <img
+          src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+          alt="Hospital Buin Paine"
+          style={{
+            width: 52, height: 52,
+            objectFit: "contain",
+            display: "block",
+            flexShrink: 0,
+            marginBottom: 20,
+          }}
+        />
 
         {/* Nav ítems — SVG glass icons con tooltip */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: "100%", paddingTop: 4 }}>
