@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# 🏥 Dashboard Mobiliario No Clínico — Hospital Buin Paine
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard interactivo para la gestión y seguimiento del mobiliario no clínico del Hospital Buin Paine, desarrollado con React + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## 📋 Descripción
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Esta herramienta permite visualizar y analizar el estado del mobiliario no clínico distribuido en las distintas unidades del hospital, incluyendo:
 
-## React Compiler
+- Resumen general con indicadores clave (KPIs)
+- Detalle por unidad y por tipo de mobiliario
+- Visualización de Especificaciones Técnicas (EETT) en PDF
+- Seguimiento del estado de cada ítem (Bueno, Regular, Malo, Faltante)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tecnologías
 
-## Expanding the ESLint configuration
+- **React 18** + **TypeScript**
+- **Vite** — servidor de desarrollo ultrarrápido
+- **Recharts** — gráficos interactivos
+- **PDF.js (pdfjs-dist v5)** — visualizador de PDFs integrado
+- **CSS-in-JS** — estilos inline con sistema de colores centralizado
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📁 Estructura del proyecto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+hospital-dashboard/
+├── public/
+│   └── eett/          # PDFs de Especificaciones Técnicas (no incluidos en el repo)
+├── src/
+│   ├── App.tsx         # Componente principal con toda la lógica
+│   └── main.tsx        # Punto de entrada
+├── index.html
+├── package.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Instalación y uso
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Requisitos previos
+- Node.js 18 o superior
+- npm
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Pasos
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/FelipeM2121/hospital-buin-paine-dashboard.git
+cd hospital-buin-paine-dashboard
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Iniciar servidor de desarrollo
+npm run dev
 ```
+
+El dashboard estará disponible en `http://localhost:5173`
+
+### PDFs de Especificaciones Técnicas
+
+Los archivos PDF no están incluidos en el repositorio por su tamaño. Para habilitarlos, coloca los archivos `.pdf` en la carpeta `public/eett/`.
+
+## 🗂️ Pestañas disponibles
+
+| Pestaña | Descripción |
+|---|---|
+| 📊 Resumen | KPIs generales y gráficos de estado |
+| 🏢 Por Unidad | Detalle de mobiliario por unidad del hospital |
+| 🪑 Por Tipo | Agrupación por tipo de ítem |
+| 📄 Esp. Técnicas | Visor PDF de especificaciones técnicas con buscador |
+
+## 🔍 Funcionalidades destacadas
+
+- **Buscador de EETT** con filtro por nombre y código, insensible a tildes y mayúsculas
+- **Visor PDF integrado** con zoom ajustable, navegación por páginas y ajuste automático al ancho
+- **Filtros interactivos** por unidad, tipo y estado del mobiliario
+- **Diseño responsivo** adaptado a escritorio
+
+## 📄 Licencia
+
+Uso interno — Hospital Buin Paine © 2025
