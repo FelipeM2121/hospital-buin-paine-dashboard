@@ -1465,45 +1465,31 @@ export default function App() {
 
           {/* Header estilo "Overview" */}
           <div style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-              {/* Logo Hospital Buin Paine — visible en todos los tabs */}
-              <img
-                src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
-                alt="Hospital Buin Paine"
-                style={{
-                  height: 72,
-                  width: "auto",
-                  objectFit: "contain",
-                  display: "block",
-                  flexShrink: 0,
-                }}
-              />
-              <div>
-                <h1 style={{
-                  fontSize: 30,
-                  fontWeight: 800,
-                  margin: 0,
-                  color: COLORS.text,
-                  letterSpacing: "-0.5px",
-                }}>
-                  {activeTab === "Resumen" ? "Resumen General" :
-                   activeTab === "Por Familia" ? "Análisis por Familia" :
-                   activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
-                   activeTab === "Por Piso" ? "Distribución por Piso" :
-                   activeTab === "Por Servicio" ? "Análisis por Servicio" :
-                   activeTab === "Por Producto" ? "Top Productos" :
-                   activeTab === "Por Fecha" ? "Cronograma de Instalación" :
-                   "Especificaciones Técnicas"}
-                </h1>
-                <p style={{
-                  fontSize: 13,
-                  color: COLORS.textMuted,
-                  margin: "6px 0 0 0",
-                  fontWeight: 400,
-                }}>
-                  Dashboard Mobiliario No Clínico — Hospital Buin Paine
-                </p>
-              </div>
+            <div>
+              <h1 style={{
+                fontSize: 30,
+                fontWeight: 800,
+                margin: 0,
+                color: COLORS.text,
+                letterSpacing: "-0.5px",
+              }}>
+                {activeTab === "Resumen" ? "Resumen General" :
+                 activeTab === "Por Familia" ? "Análisis por Familia" :
+                 activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
+                 activeTab === "Por Piso" ? "Distribución por Piso" :
+                 activeTab === "Por Servicio" ? "Análisis por Servicio" :
+                 activeTab === "Por Producto" ? "Top Productos" :
+                 activeTab === "Por Fecha" ? "Cronograma de Instalación" :
+                 "Especificaciones Técnicas"}
+              </h1>
+              <p style={{
+                fontSize: 13,
+                color: COLORS.textMuted,
+                margin: "6px 0 0 0",
+                fontWeight: 400,
+              }}>
+                Dashboard Mobiliario No Clínico — Hospital Buin Paine
+              </p>
             </div>
             {/* Badge tab activo */}
             {(() => {
