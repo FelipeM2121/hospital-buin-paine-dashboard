@@ -1387,19 +1387,6 @@ export default function App() {
         boxShadow: "4px 0 24px rgba(0,0,0,0.18)",
         zIndex: 10,
       }}>
-        {/* Logo Hospital Buin Paine — sidebar superior */}
-        <img
-          src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
-          alt="Hospital Buin Paine"
-          style={{
-            width: 52, height: 52,
-            objectFit: "contain",
-            display: "block",
-            flexShrink: 0,
-            marginBottom: 20,
-          }}
-        />
-
         {/* Nav ítems — SVG glass icons con tooltip */}
         <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, width: "100%", paddingTop: 4 }}>
           {tabs.map((tab) => {
@@ -1461,7 +1448,13 @@ export default function App() {
 
           {/* Header estilo "Overview" */}
           <div style={{ marginBottom: 36, display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
-            <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+              <img
+                src={`${import.meta.env.BASE_URL}logo-buin-paine.png`}
+                alt="Hospital Buin Paine"
+                style={{ height: 72, width: "auto", objectFit: "contain", display: "block", flexShrink: 0 }}
+              />
+              <div>
               <h1 style={{
                 fontSize: 30,
                 fontWeight: 800,
@@ -1486,6 +1479,7 @@ export default function App() {
               }}>
                 Dashboard Mobiliario No Clínico — Hospital Buin Paine
               </p>
+              </div>
             </div>
             {/* Badge tab activo */}
             {(() => {
