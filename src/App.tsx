@@ -331,6 +331,16 @@ const Icons = {
       <path d="M16.5 16.5L21 21" stroke="white" strokeOpacity="0.9" strokeWidth="2.5" strokeLinecap="round"/>
     </svg>
   ),
+  // Árbol de carpetas / control de documentos
+  tree: (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="3" width="8" height="5" rx="1.5" fill="white" fillOpacity="0.9"/>
+      <rect x="14" y="3" width="8" height="5" rx="1.5" fill="white" fillOpacity="0.6"/>
+      <rect x="14" y="16" width="8" height="5" rx="1.5" fill="white" fillOpacity="0.6"/>
+      <path d="M10 5.5H13M10 5.5V18.5H13" stroke="white" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round"/>
+      <rect x="2" y="16" width="8" height="5" rx="1.5" fill="white" fillOpacity="0.9"/>
+    </svg>
+  ),
 };
 
 // Contenedor glass para iconos en sidebar (fondo del color activo o translúcido)
@@ -1308,6 +1318,233 @@ const btnStyle: React.CSSProperties = {
   display: "flex", alignItems: "center", justifyContent: "center",
 };
 
+// ── Datos organigrama ────────────────────────────────────────────
+const datosOrganigrama: OrgNodo = {
+  nombre: "2.- MOBILIARIO NO CLINICO", tipo: "carpeta", nivel: 0, padre: null,
+  url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO",
+  hijos: [
+    { nombre: "2.1 BASES", tipo: "carpeta", nivel: 1, padre: "2.- MOBILIARIO NO CLINICO",
+      url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%20BASES",
+      hijos: [
+        { nombre: "2.1.1 BASES LICITACION MOBILIARIO NO CLINICO", tipo: "carpeta", nivel: 2, padre: "2.1 BASES",
+          url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%20BASES%2F2%2E1%2E1%20BASES%20LICITACION%20MOBILIARIO%20NO%20CLINICO",
+          hijos: [
+            { nombre: "2.1.1.1 Anexos", tipo: "carpeta", nivel: 3, padre: "2.1.1 BASES LICITACION MOBILIARIO NO CLINICO",
+              url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%20BASES%2F2%2E1%2E1%20BASES%20LICITACION%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%2E1%2E1%20Anexos",
+              hijos: [
+                { nombre: "A", tipo: "carpeta", nivel: 4, padre: "2.1.1.1 Anexos", url: "#",
+                  hijos: [{ nombre: "Anexo N°1 AP.docx", tipo: "archivo", extension: "docx", nivel: 5, padre: "A", url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Operaciones/CHI%20HBP/03%20ADQ-REP/2.-%20MOBILIARIO%20NO%20CLINICO/2.1%20BASES/2.1.1%20BASES%20LICITACION%20MOBILIARIO%20NO%20CLINICO/2.1.1.1%20Anexos/A/Anexo%20N%C2%B01%20AP.docx" }] },
+                { nombre: "B", tipo: "carpeta", nivel: 4, padre: "2.1.1.1 Anexos", url: "#",
+                  hijos: [
+                    { nombre: "Anexo N°8 EETT", tipo: "carpeta", nivel: 5, padre: "B", url: "#", hijos: [] },
+                    { nombre: "Anexo N°3 CRONO.docx", tipo: "archivo", extension: "docx", nivel: 5, padre: "B", url: "#" }
+                  ] }
+              ] },
+            { nombre: "2.1.1.2 Documentos", tipo: "carpeta", nivel: 3, padre: "2.1.1 BASES LICITACION MOBILIARIO NO CLINICO",
+              url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%20BASES%2F2%2E1%2E1%20BASES%20LICITACION%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%2E1%2E2%20Documentos",
+              hijos: [
+                { nombre: "6. Planos", tipo: "carpeta", nivel: 4, padre: "2.1.1.2 Documentos", url: "#",
+                  hijos: [
+                    { nombre: "DWG", tipo: "carpeta", nivel: 5, padre: "6. Planos", url: "#",
+                      hijos: [
+                        { nombre: "HBP-MOB-EQU-R2021-bbats01-8503181.jpg", tipo: "archivo", extension: "jpg", nivel: 6, padre: "DWG", url: "#" },
+                        { nombre: "HBP-MOB-EQU-R2021-bbats01-8504958.jpg", tipo: "archivo", extension: "jpg", nivel: 6, padre: "DWG", url: "#" }
+                      ] },
+                    { nombre: "PDF", tipo: "carpeta", nivel: 5, padre: "6. Planos", url: "#",
+                      hijos: [
+                        { nombre: "HBP-PISO 1-1001RevD.pdf", tipo: "archivo", extension: "pdf", nivel: 6, padre: "PDF", url: "#" },
+                        { nombre: "HBP-PISO 2-1002RevD.pdf", tipo: "archivo", extension: "pdf", nivel: 6, padre: "PDF", url: "#" }
+                      ] }
+                  ] },
+                { nombre: "7. Formulario para la presentación de Consultas", tipo: "carpeta", nivel: 4, padre: "2.1.1.2 Documentos", url: "#",
+                  hijos: [{ nombre: "7. Formulario para presentación de Consultas.xlsx", tipo: "archivo", extension: "xlsx", nivel: 5, padre: "7. Formulario para la presentación de Consultas", url: "#" }] },
+                { nombre: "4. Detalle listado Tipos Equipo Mobiliario-Elite600SFF.xlsx", tipo: "archivo", extension: "xlsx", nivel: 4, padre: "2.1.1.2 Documentos", url: "#" },
+                { nombre: "5. Detalle Entrenamiento por Tipo Equipo Mobiliario.xlsx", tipo: "archivo", extension: "xlsx", nivel: 4, padre: "2.1.1.2 Documentos", url: "#" }
+              ] }
+          ] },
+        { nombre: "2.1.2 BACO V4_MNC - CON MANTENIMIENTO", tipo: "carpeta", nivel: 2, padre: "2.1 BASES",
+          url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E1%20BASES%2F2%2E1%2E2%20BACO%20V4%5FMNC%20%2D%20CON%20MANTENIMIENTO",
+          hijos: [
+            { nombre: "2.1.2.1 Anexos", tipo: "carpeta", nivel: 3, padre: "2.1.2 BACO V4_MNC - CON MANTENIMIENTO", url: "#",
+              hijos: [
+                { nombre: "A", tipo: "carpeta", nivel: 4, padre: "2.1.2.1 Anexos", url: "#",
+                  hijos: [{ nombre: "Anexo N°1 AP.docx", tipo: "archivo", extension: "docx", nivel: 5, padre: "A", url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Operaciones/CHI%20HBP/03%20ADQ-REP/2.-%20MOBILIARIO%20NO%20CLINICO/2.1%20BASES/2.1.2%20BACO%20V4_MNC%20-%20CON%20MANTENIMIENTO/2.1.2.1%20Anexos/A/Anexo%20N%C2%B01%20AP.docx" }] },
+                { nombre: "B", tipo: "carpeta", nivel: 4, padre: "2.1.2.1 Anexos", url: "#",
+                  hijos: [
+                    { nombre: "Anexo N°8 EETT", tipo: "carpeta", nivel: 5, padre: "B", url: "#",
+                      hijos: [
+                        { nombre: "EETT_ADAPTADOR DE LLAVES.xlsx", tipo: "archivo", extension: "xlsx", nivel: 6, padre: "Anexo N°8 EETT", url: "#" },
+                        { nombre: "EETT_ATRIL GRADUABLE.xlsx", tipo: "archivo", extension: "xlsx", nivel: 6, padre: "Anexo N°8 EETT", url: "#" }
+                      ] },
+                    { nombre: "Anexo N°2 PNI.xls", tipo: "archivo", extension: "xls", nivel: 5, padre: "B", url: "#" }
+                  ] }
+              ] },
+            { nombre: "2.1.2.2 Documentos", tipo: "carpeta", nivel: 3, padre: "2.1.2 BACO V4_MNC - CON MANTENIMIENTO", url: "#",
+              hijos: [
+                { nombre: "6. Planos", tipo: "carpeta", nivel: 4, padre: "2.1.2.2 Documentos", url: "#",
+                  hijos: [
+                    { nombre: "DWG", tipo: "carpeta", nivel: 5, padre: "6. Planos", url: "#",
+                      hijos: [
+                        { nombre: "HBP-MOB-EQU-R2021-bbats01-8503181.jpg", tipo: "archivo", extension: "jpg", nivel: 6, padre: "DWG", url: "#" },
+                        { nombre: "HBP-MOB-EQU-R2021-bbats01-8504958.jpg", tipo: "archivo", extension: "jpg", nivel: 6, padre: "DWG", url: "#" }
+                      ] },
+                    { nombre: "PDF", tipo: "carpeta", nivel: 5, padre: "6. Planos", url: "#",
+                      hijos: [
+                        { nombre: "HBP-PISO 1-1001RevD.pdf", tipo: "archivo", extension: "pdf", nivel: 6, padre: "PDF", url: "#" },
+                        { nombre: "HBP-PISO 2-1002RevD.pdf", tipo: "archivo", extension: "pdf", nivel: 6, padre: "PDF", url: "#" }
+                      ] }
+                  ] },
+                { nombre: "7. Formulario para la presentación de Consultas", tipo: "carpeta", nivel: 4, padre: "2.1.2.2 Documentos", url: "#",
+                  hijos: [{ nombre: "7. Formulario para presentación de Consultas.xlsx", tipo: "archivo", extension: "xlsx", nivel: 5, padre: "7. Formulario para la presentación de Consultas", url: "#" }] },
+                { nombre: "4. Detalle listado Tipos Equipo Mobiliario-Elite600SFF.xlsx", tipo: "archivo", extension: "xlsx", nivel: 4, padre: "2.1.2.2 Documentos", url: "#" },
+                { nombre: "5. Detalle Entrenamiento por Tipo Equipo Mobiliario.xlsx", tipo: "archivo", extension: "xlsx", nivel: 4, padre: "2.1.2.2 Documentos", url: "#" }
+              ] }
+          ] }
+      ] },
+    { nombre: "2.2 DOCUMENTOS", tipo: "carpeta", nivel: 1, padre: "2.- MOBILIARIO NO CLINICO",
+      url: "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=%2Fcolaborativos%2Fdesarrollonegocios%2FDocumentos%20compartidos%2FOperaciones%2FCHI%20HBP%2F03%20ADQ%2DREP%2F2%2E%2D%20MOBILIARIO%20NO%20CLINICO%2F2%2E2%20DOCUMENTOS",
+      hijos: [
+        { nombre: "2.2.1 CARTAS Y FOLIOS MNC", tipo: "carpeta", nivel: 2, padre: "2.2 DOCUMENTOS", url: "#",
+          hijos: [
+            { nombre: "2.2.1.1 CARTAS A SC", tipo: "carpeta", nivel: 3, padre: "2.2.1 CARTAS Y FOLIOS MNC", url: "#",
+              hijos: [
+                { nombre: "GD-SC N°24-335 Respuesta Folio 030 MnC", tipo: "archivo", extension: "pdf", nivel: 4, padre: "2.2.1.1 CARTAS A SC", url: "#" },
+                { nombre: "GT-SC N°24-033 Informe análisis comparativo entre anexo", tipo: "archivo", extension: "pdf", nivel: 4, padre: "2.2.1.1 CARTAS A SC", url: "#" }
+              ] },
+            { nombre: "2.2.1.2 CARTAS SC-DOMIN", tipo: "carpeta", nivel: 3, padre: "2.2.1 CARTAS Y FOLIOS MNC", url: "#",
+              hijos: [{ nombre: "Fwd_SCHBP-DOM-432-2024_Informe análisis comparativo", tipo: "archivo", extension: "pdf", nivel: 4, padre: "2.2.1.2 CARTAS SC-DOMIN", url: "#" }] }
+          ] },
+        { nombre: "2.2.2 CORRESPONDENCIA", tipo: "carpeta", nivel: 2, padre: "2.2 DOCUMENTOS", url: "#",
+          hijos: [{ nombre: "Historial de Cartas_Integrador.xlsx", tipo: "archivo", extension: "xlsx", nivel: 3, padre: "2.2.2 CORRESPONDENCIA", url: "#" }] }
+      ] }
+  ]
+};
+
+interface OrgNodo {
+  nombre: string;
+  tipo: "carpeta" | "archivo";
+  extension?: string;
+  nivel: number;
+  padre: string | null;
+  url: string;
+  hijos?: OrgNodo[];
+}
+
+function iconoArchivo(ext?: string) {
+  const m: Record<string, string> = { pdf: "📕", docx: "📘", doc: "📘", xlsx: "📗", xls: "📗", pptx: "🎨", jpg: "🖼️", jpeg: "🖼️", png: "🖼️" };
+  return m[ext?.toLowerCase() ?? ""] ?? "📄";
+}
+
+function contarStats(n: OrgNodo): { carpetas: number; archivos: number } {
+  let carpetas = n.tipo === "carpeta" ? 1 : 0;
+  let archivos = n.tipo === "archivo" ? 1 : 0;
+  (n.hijos ?? []).forEach(h => { const s = contarStats(h); carpetas += s.carpetas; archivos += s.archivos; });
+  return { carpetas, archivos };
+}
+
+function OrgNodoRow({ nodo, busqueda, depth = 0 }: { nodo: OrgNodo; busqueda: string; depth?: number }) {
+  const [abierto, setAbierto] = useState(depth < 1);
+  const tieneHijos = (nodo.hijos ?? []).length > 0;
+  const coincide = nodo.nombre.toLowerCase().includes(busqueda.toLowerCase());
+  if (busqueda && !coincide && !tieneHijos) return null;
+
+  const resaltar = (texto: string) => {
+    if (!busqueda) return texto;
+    const idx = texto.toLowerCase().indexOf(busqueda.toLowerCase());
+    if (idx === -1) return texto;
+    return <>{texto.slice(0, idx)}<mark style={{ background: "#fde68a", borderRadius: 3, padding: "0 2px" }}>{texto.slice(idx, idx + busqueda.length)}</mark>{texto.slice(idx + busqueda.length)}</>;
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex", alignItems: "center", gap: 8,
+          padding: "7px 10px 7px " + (16 + depth * 20) + "px",
+          borderRadius: 10,
+          cursor: tieneHijos ? "pointer" : "default",
+          transition: "background 0.12s",
+          background: "transparent",
+        }}
+        onMouseEnter={e => (e.currentTarget.style.background = "#e8f4fa")}
+        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+        onClick={() => tieneHijos && setAbierto(o => !o)}
+      >
+        {/* flecha */}
+        <span style={{ width: 18, flexShrink: 0, fontSize: 12, color: COLORS.primary, opacity: tieneHijos ? 1 : 0, transition: "transform 0.18s", display: "inline-block", transform: abierto ? "rotate(0deg)" : "rotate(-90deg)" }}>▼</span>
+        {/* icono */}
+        <span style={{ fontSize: 16, flexShrink: 0 }}>
+          {nodo.tipo === "carpeta" ? (depth === 0 ? "📂" : "📁") : iconoArchivo(nodo.extension)}
+        </span>
+        {/* nombre */}
+        <span style={{
+          flex: 1, fontSize: 13, fontWeight: nodo.nivel <= 1 ? 700 : nodo.nivel === 2 ? 600 : 400,
+          color: COLORS.text, wordBreak: "break-word",
+        }}>
+          {nodo.url && nodo.url !== "#"
+            ? <a href={nodo.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ color: COLORS.primary, textDecoration: "none", borderBottom: `1px dotted ${COLORS.primary}` }}>{resaltar(nodo.nombre)}</a>
+            : resaltar(nodo.nombre)}
+        </span>
+        {/* badge contador */}
+        {tieneHijos && (
+          <span style={{ fontSize: 11, background: `${COLORS.primary}18`, color: COLORS.primary, border: `1px solid ${COLORS.primary}30`, borderRadius: 20, padding: "2px 9px", flexShrink: 0, fontWeight: 600 }}>
+            {contarStats(nodo).archivos} arch.
+          </span>
+        )}
+      </div>
+      {tieneHijos && abierto && (
+        <div style={{ borderLeft: `2px solid ${COLORS.borderLight}`, marginLeft: 16 + depth * 20 + 9 }}>
+          {(nodo.hijos ?? []).map((h, i) => <OrgNodoRow key={i} nodo={h} busqueda={busqueda} depth={depth + 1} />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ControlDocumentoTab() {
+  const [busqueda, setBusqueda] = useState("");
+  const stats = contarStats(datosOrganigrama);
+
+  return (
+    <div style={{ background: COLORS.white, borderRadius: 18, border: `1px solid ${COLORS.borderLight}`, boxShadow: "0 2px 16px rgba(0,180,216,0.07), 0 1px 4px rgba(0,0,0,0.04)", overflow: "hidden" }}>
+      {/* Header interno */}
+      <div style={{ background: `linear-gradient(135deg, ${COLORS.blue} 0%, #1a4a6e 100%)`, padding: "24px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
+        <div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: "#fff", letterSpacing: "-0.3px" }}>Organigrama de Documentos</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Hospital Buin Paine · Área de Mobiliario No Clínico</div>
+        </div>
+        <div style={{ display: "flex", gap: 20 }}>
+          {[["📁", stats.carpetas, "Carpetas"], ["📄", stats.archivos, "Archivos"]].map(([ic, n, label]) => (
+            <div key={label as string} style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.cyan }}>{ic} {n}</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.6)" }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Barra búsqueda */}
+      <div style={{ padding: "16px 24px", borderBottom: `1px solid ${COLORS.borderLight}`, background: COLORS.bg, display: "flex", gap: 12, alignItems: "center" }}>
+        <input
+          type="text"
+          placeholder="🔍 Buscar carpeta o archivo..."
+          value={busqueda}
+          onChange={e => setBusqueda(e.target.value)}
+          style={{ flex: 1, padding: "9px 14px", borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 13, outline: "none", background: COLORS.white, color: COLORS.text }}
+        />
+        {busqueda && (
+          <button onClick={() => setBusqueda("")} style={{ padding: "8px 14px", borderRadius: 10, border: `1px solid ${COLORS.border}`, background: COLORS.white, color: COLORS.textMuted, fontSize: 13, cursor: "pointer" }}>✕ Limpiar</button>
+        )}
+      </div>
+
+      {/* Árbol */}
+      <div style={{ padding: "16px 8px 24px 8px" }}>
+        <OrgNodoRow nodo={datosOrganigrama} busqueda={busqueda} depth={0} />
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [activeTab, setActiveTab] = useState("Resumen");
   const S = SUMMARY;
@@ -1320,7 +1557,8 @@ export default function App() {
     { name: "Por Servicio", icon: Icons.hospital, color: COLORS.red },
     { name: "Por Producto", icon: Icons.box,      color: COLORS.purple },
     { name: "Por Fecha",    icon: Icons.calendar, color: "#f59e0b" },
-    { name: "Esp. Técnicas",icon: Icons.document, color: "#14b8a6" },
+    { name: "Esp. Técnicas",      icon: Icons.document, color: "#14b8a6" },
+    { name: "Control Documento",  icon: Icons.tree,     color: "#7c3aed" },
   ];
 
   const EETT_FILES = [
@@ -1469,7 +1707,8 @@ export default function App() {
                  activeTab === "Por Servicio" ? "Análisis por Servicio" :
                  activeTab === "Por Producto" ? "Top Productos" :
                  activeTab === "Por Fecha" ? "Cronograma de Instalación" :
-                 "Especificaciones Técnicas"}
+                 activeTab === "Esp. Técnicas" ? "Especificaciones Técnicas" :
+                 "Control de Documento"}
               </h1>
               <p style={{
                 fontSize: 13,
@@ -2342,6 +2581,8 @@ export default function App() {
               </div>
             </>
           )}
+
+          {activeTab === "Control Documento" && <ControlDocumentoTab />}
 
           {/* Footer */}
           <div style={{
