@@ -1837,6 +1837,24 @@ function iconoArchivo(ext?: string) {
   return m[ext?.toLowerCase() ?? ""] ?? "📄";
 }
 
+const SP_ALLITEMS = "https://dominionglobal.sharepoint.com/colaborativos/desarrollonegocios/Documentos%20compartidos/Forms/AllItems.aspx?id=";
+const SP_BASE_PATH = "/colaborativos/desarrollonegocios/Documentos compartidos/Operaciones/CHI HBP/03 ADQ-REP/2.- MOBILIARIO NO CLINICO/";
+
+function encodeSP(s: string): string {
+  return encodeURIComponent(s)
+    .replace(/\./g, '%2E').replace(/-/g, '%2D')
+    .replace(/!/g, '%21').replace(/~/g, '%7E')
+    .replace(/\*/g, '%2A').replace(/'/g, '%27')
+    .replace(/\(/g, '%28').replace(/\)/g, '%29');
+}
+
+function buildSPUrl(segments: string[]): string {
+  if (segments.length === 0) return '#';
+  const fullPath = SP_BASE_PATH + segments.join("/");
+  const encodedPath = fullPath.split("/").map(encodeSP).join("%2F");
+  return SP_ALLITEMS + encodedPath;
+}
+
 function contarStats(n: OrgNodo): { carpetas: number; archivos: number } {
   let carpetas = n.tipo === "carpeta" ? 1 : 0;
   let archivos = n.tipo === "archivo" ? 1 : 0;
@@ -1844,11 +1862,18 @@ function contarStats(n: OrgNodo): { carpetas: number; archivos: number } {
   return { carpetas, archivos };
 }
 
-function OrgNodoRow({ nodo, busqueda, depth = 0 }: { nodo: OrgNodo; busqueda: string; depth?: number }) {
+function OrgNodoRow({ nodo, busqueda, depth = 0, path = [] }: { nodo: OrgNodo; busqueda: string; depth?: number; path?: string[] }) {
   const [abierto, setAbierto] = useState(depth < 1);
   const tieneHijos = (nodo.hijos ?? []).length > 0;
   const coincide = nodo.nombre.toLowerCase().includes(busqueda.toLowerCase());
   if (busqueda && !coincide && !tieneHijos) return null;
+
+  const currentPath: string[] = nodo.nivel === 0 ? [] : [...path, nodo.nombre];
+  const effectiveUrl = (nodo.url && nodo.url !== "#")
+    ? nodo.url
+    : nodo.tipo === 'carpeta'
+      ? buildSPUrl(currentPath)
+      : buildSPUrl(currentPath.slice(0, -1));
 
   const resaltar = (texto: string) => {
     if (!busqueda) return texto;
@@ -1883,8 +1908,8 @@ function OrgNodoRow({ nodo, busqueda, depth = 0 }: { nodo: OrgNodo; busqueda: st
           flex: 1, fontSize: 13, fontWeight: nodo.nivel <= 1 ? 700 : nodo.nivel === 2 ? 600 : 400,
           color: COLORS.text, wordBreak: "break-word",
         }}>
-          {nodo.url && nodo.url !== "#"
-            ? <a href={nodo.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ color: COLORS.primary, textDecoration: "none", borderBottom: `1px dotted ${COLORS.primary}` }}>{resaltar(nodo.nombre)}</a>
+          {effectiveUrl && effectiveUrl !== "#"
+            ? <a href={effectiveUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ color: COLORS.primary, textDecoration: "none", borderBottom: `1px dotted ${COLORS.primary}` }}>{resaltar(nodo.nombre)}</a>
             : resaltar(nodo.nombre)}
         </span>
         {/* badge contador */}
@@ -1896,7 +1921,7 @@ function OrgNodoRow({ nodo, busqueda, depth = 0 }: { nodo: OrgNodo; busqueda: st
       </div>
       {tieneHijos && abierto && (
         <div style={{ borderLeft: `2px solid ${COLORS.borderLight}`, marginLeft: 16 + depth * 20 + 9 }}>
-          {(nodo.hijos ?? []).map((h, i) => <OrgNodoRow key={i} nodo={h} busqueda={busqueda} depth={depth + 1} />)}
+          {(nodo.hijos ?? []).map((h, i) => <OrgNodoRow key={i} nodo={h} busqueda={busqueda} depth={depth + 1} path={currentPath} />)}
         </div>
       )}
     </div>
