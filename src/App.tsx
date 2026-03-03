@@ -1940,7 +1940,6 @@ export default function App() {
 
   const tabs = [
     { name: "Resumen",      icon: Icons.chart,    color: COLORS.primary },
-    { name: "Por Proveedor",icon: Icons.building, color: COLORS.green },
     { name: "Por Piso",     icon: Icons.layers,   color: COLORS.cyan },
     { name: "Por Servicio", icon: Icons.hospital, color: COLORS.red },
     { name: "Por Producto", icon: Icons.box,      color: COLORS.purple },
@@ -2089,7 +2088,6 @@ export default function App() {
                 letterSpacing: "-0.5px",
               }}>
                 {activeTab === "Resumen" ? "Resumen General" :
-                 activeTab === "Por Proveedor" ? "Análisis por Proveedor" :
                  activeTab === "Por Piso" ? "Distribución por Piso" :
                  activeTab === "Por Servicio" ? "Análisis por Servicio" :
                  activeTab === "Por Producto" ? "Top Productos" :
@@ -2123,7 +2121,7 @@ export default function App() {
                 }}>
                   <div style={{
                     width: 18, height: 18, display: "flex",
-                    filter: `brightness(0) saturate(100%) invert(30%) sepia(80%) saturate(500%) hue-rotate(${activeTab === "Por Proveedor" ? "120" : activeTab === "Por Servicio" ? "0" : "230"}deg)`,
+                    filter: `brightness(0) saturate(100%) invert(30%) sepia(80%) saturate(500%) hue-rotate(${activeTab === "Por Servicio" ? "0" : "230"}deg)`,
                   }}>
                     {activeTabData?.icon}
                   </div>
@@ -2287,6 +2285,103 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Análisis Completo de Proveedores */}
+              <SectionTitle count={S.proveedores}>Análisis de Proveedores</SectionTitle>
+
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: 16,
+                marginBottom: 32,
+              }}>
+                {S.byProveedor.map((p, i) => (
+                  <KPICard
+                    key={i}
+                    label={p.name}
+                    value={p.qty}
+                    sub={`${((p.qty / S.totalQty) * 100).toFixed(1)}%`}
+                    icon={[Icons.building, Icons.building, Icons.building][i] || Icons.building}
+                    color={CHART_COLORS[i]}
+                  />
+                ))}
+              </div>
+
+              <div style={{
+                background: COLORS.white,
+                borderRadius: 18,
+                padding: 24,
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
+                marginBottom: 32,
+              }}>
+                <h3 style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: COLORS.text,
+                  marginBottom: 20,
+                  marginTop: 0,
+                }}>
+                  Distribución por Proveedor
+                </h3>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart data={S.byProveedor}>
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fill: COLORS.textMuted, fontSize: 11 }}
+                      axisLine={{ stroke: COLORS.border }}
+                    />
+                    <YAxis
+                      tick={{ fill: COLORS.textMuted, fontSize: 11 }}
+                      axisLine={{ stroke: COLORS.border }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar dataKey="qty" name="Cantidad" radius={[6, 6, 0, 0]}>
+                      {S.byProveedor.map((_, i) => (
+                        <Cell key={i} fill={CHART_COLORS[i]} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div style={{
+                background: COLORS.white,
+                borderRadius: 18,
+                padding: 24,
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,941,0.05)",
+                marginBottom: 32,
+              }}>
+                <h3 style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: COLORS.text,
+                  marginBottom: 20,
+                  marginTop: 0,
+                }}>
+                  Detalle de Proveedores
+                </h3>
+                <DataTable
+                  data={S.byProveedor.map((p, i) => ({
+                    ...p,
+                    rank: i + 1,
+                    pctQty: ((p.qty / S.totalQty) * 100).toFixed(1) + "%",
+                  }))}
+                  columns={[
+                    { key: "rank", label: "#", align: "center", mono: true, width: "60px" },
+                    { key: "name", label: "Proveedor", highlight: true },
+                    { key: "qty", label: "Cantidad", align: "right", mono: true, width: "120px" },
+                    { key: "pctQty", label: "% del Total", align: "right", mono: true, width: "120px" },
+                    {
+                      key: "qty",
+                      label: "Distribución",
+                      render: (v) => <ProgressBar value={v} max={4256} color={COLORS.green} />
+                    },
+                  ]}
+                  maxRows={10}
+                />
+              </div>
+
               {/* Top 5 */}
               <SectionTitle action="Ver todos">Top 5 Productos</SectionTitle>
               <div style={{ 
@@ -2314,78 +2409,6 @@ export default function App() {
           )}
 
 
-          {activeTab === "Por Proveedor" && (
-            <>
-              <SectionTitle count={S.proveedores}>Análisis por Proveedor</SectionTitle>
-              
-              <div style={{ 
-                display: "grid", 
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", 
-                gap: 16,
-                marginBottom: 32,
-              }}>
-                {S.byProveedor.map((p, i) => (
-                  <KPICard
-                    key={i}
-                    label={p.name}
-                    value={p.qty}
-                    sub={`${((p.qty / S.totalQty) * 100).toFixed(1)}%`}
-                    icon={[Icons.building, Icons.building, Icons.building][i] || Icons.building}
-                    color={CHART_COLORS[i]}
-                  />
-                ))}
-              </div>
-
-              <div style={{
-                background: COLORS.white,
-                borderRadius: 18,
-                padding: 24,
-                border: `1px solid ${COLORS.borderLight}`,
-                boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
-                marginBottom: 24,
-              }}>
-                <ResponsiveContainer width="100%" height={280}>
-                  <BarChart data={S.byProveedor}>
-                    <XAxis 
-                      dataKey="name" 
-                      tick={{ fill: COLORS.textMuted, fontSize: 11 }}
-                      axisLine={{ stroke: COLORS.border }}
-                    />
-                    <YAxis 
-                      tick={{ fill: COLORS.textMuted, fontSize: 11 }}
-                      axisLine={{ stroke: COLORS.border }}
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Bar dataKey="qty" name="Cantidad" radius={[6, 6, 0, 0]}>
-                      {S.byProveedor.map((_, i) => (
-                        <Cell key={i} fill={CHART_COLORS[i]} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-
-              <DataTable
-                data={S.byProveedor.map((p, i) => ({
-                  ...p,
-                  rank: i + 1,
-                  pctQty: ((p.qty / S.totalQty) * 100).toFixed(1) + "%",
-                }))}
-                columns={[
-                  { key: "rank", label: "#", align: "center", mono: true, width: "60px" },
-                  { key: "name", label: "Proveedor", highlight: true },
-                  { key: "qty", label: "Cantidad", align: "right", mono: true, width: "120px" },
-                  { key: "pctQty", label: "% del Total", align: "right", mono: true, width: "120px" },
-                  { 
-                    key: "qty", 
-                    label: "Distribución", 
-                    render: (v) => <ProgressBar value={v} max={4256} color={COLORS.green} /> 
-                  },
-                ]}
-                maxRows={3}
-              />
-            </>
-          )}
 
           {activeTab === "Por Piso" && (
             <>
