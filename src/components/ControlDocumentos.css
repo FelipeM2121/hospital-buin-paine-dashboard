@@ -1,0 +1,102 @@
+.control-documentos {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.control-documentos-header {
+  margin-bottom: 24px;
+  border-bottom: 2px solid #0ea5e9;
+  padding-bottom: 16px;
+}
+
+.control-documentos-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.subtitle {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.tree-view {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.tree-node {
+  margin: 2px 0;
+}
+
+.tree-node-content {
+  display: flex;
+  align-items: center;
+  padding: 8px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tree-node-content:hover {
+  background-color: #f3f4f6;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 4px;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.expand-button-placeholder {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.folder-icon {
+  color: #f59e0b;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.folder-open-icon {
+  color: #f59e0b;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.file-icon {
+  color: #8b5cf6;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.node-label {
+  font-size: 14px;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-children {
+  margin-left: 4px;
+  border-left: 1px solid #e5e7eb;
+}

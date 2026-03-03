@@ -1,0 +1,13 @@
+[
+  {"nivel":0,"carpetaPadre":null,"nombre":"2.- MOBILIARIO NO CLINICO","tipo":"Carpeta","rutaRelativa":"."},
+  {"nivel":1,"carpetaPadre":"2.- MOBILIARIO NO CLINICO","nombre":"2.1 BASES","tipo":"Carpeta","rutaRelativa":"2.1 BASES"},
+  {"nivel":2,"carpetaPadre":"2.1 BASES","nombre":"2.1.1 BASES LICITACION MOBILIARIO NO CLINICO","tipo":"Carpeta","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO"},
+  {"nivel":3,"carpetaPadre":"2.1.1 BASES LICITACION MOBILIARIO NO CLINICO","nombre":"2.1.1.1 Anexos","tipo":"Carpeta","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos"},
+  {"nivel":4,"carpetaPadre":"2.1.1.1 Anexos","nombre":"A","tipo":"Carpeta","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/A"},
+  {"nivel":5,"carpetaPadre":"A","nombre":"Anexo N°1 AP.docx","tipo":"Archivo","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/A/Anexo N°1 AP.docx"},
+  {"nivel":4,"carpetaPadre":"2.1.1.1 Anexos","nombre":"B","tipo":"Carpeta","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/B"},
+  {"nivel":5,"carpetaPadre":"B","nombre":"Anexo N°3 CRONO.docx","tipo":"Archivo","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/B/Anexo N°3 CRONO.docx"},
+  {"nivel":5,"carpetaPadre":"B","nombre":"Anexo N°4 PINS.docx","tipo":"Archivo","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/B/Anexo N°4 PINS.docx"},
+  {"nivel":5,"carpetaPadre":"B","nombre":"Anexo Nº2 PNI.xls","tipo":"Archivo","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/B/Anexo Nº2 PNI.xls"},
+  {"nivel":5,"carpetaPadre":"B","nombre":"Anexo Nº8 EETT","tipo":"Carpeta","rutaRelativa":"2.1 BASES/2.1.1 BASES LICITACION MOBILIARIO NO CLINICO/2.1.1.1 Anexos/B/Anexo Nº8 EETT"}
+]
