@@ -1,0 +1,66 @@
+/* Charts Responsive Mobile Styles */
+
+/* Desktop: 2 columns layout */
+@media (min-width: 1024px) {
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+}
+
+/* Tablet: 2 columns with adjusted sizes */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .chart-card {
+    padding: 20px;
+  }
+}
+
+/* Mobile: 1 column layout */
+@media (max-width: 767px) {
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-card h3 {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Reduce chart heights on mobile */
+  .recharts-wrapper {
+    margin: 0 -8px;
+  }
+}
+
+/* Extra small devices (< 360px) */
+@media (max-width: 359px) {
+  .charts-grid {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+
+  .chart-card h3 {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+}
