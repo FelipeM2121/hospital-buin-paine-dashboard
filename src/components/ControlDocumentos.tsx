@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronRight, FileText, Folder, FolderOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, Folder, FolderOpen, Search, X } from 'lucide-react';
 import './ControlDocumentos.css';
 
 interface DocumentItem {
@@ -17,6 +17,9 @@ interface TreeNode extends DocumentItem {
 export const ControlDocumentos: React.FC = () => {
   const [treeData, setTreeData] = useState<TreeNode[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredTree, setFilteredTree] = useState<TreeNode[]>([]);
+  const [stats, setStats] = useState({ carpetas: 0, archivos: 0 });
 
   useEffect(() => {
     const cargarDocumentos = async () => {
@@ -25,12 +28,51 @@ export const ControlDocumentos: React.FC = () => {
         const datos: DocumentItem[] = await response.json();
         const tree = buildTreeStructure(datos);
         setTreeData(tree);
+        setFilteredTree(tree);
+
+        let carpetas = 0, archivos = 0;
+        datos.forEach(item => {
+          if (item.tipo === 'Carpeta') carpetas++;
+          else archivos++;
+        });
+        setStats({ carpetas, archivos });
+        setExpandedNodes(new Set(tree.map(n => n.nombre)));
       } catch (error) {
         console.error('Error cargando documentos:', error);
       }
     };
     cargarDocumentos();
   }, []);
+
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredTree(treeData);
+      return;
+    }
+
+    const filterNodes = (nodes: TreeNode[]): TreeNode[] => {
+      return nodes
+        .filter((node) => node.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+        .map((node) => ({
+          ...node,
+          children: node.children ? filterNodes(node.children) : [],
+        }))
+        .filter((node) => node.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || (node.children && node.children.length > 0));
+    };
+
+    setFilteredTree(filterNodes(treeData));
+    const allMatching = new Set<string>();
+    const collectMatching = (nodes: TreeNode[]) => {
+      nodes.forEach(node => {
+        if (node.nombre.toLowerCase().includes(searchTerm.toLowerCase())) {
+          allMatching.add(node.nombre);
+        }
+        if (node.children) collectMatching(node.children);
+      });
+    };
+    collectMatching(treeData);
+    setExpandedNodes(allMatching);
+  }, [searchTerm, treeData]);
 
   const buildTreeStructure = (items: DocumentItem[]): TreeNode[] => {
     const sorted = [...items].sort((a, b) => a.nivel - b.nivel);
@@ -73,10 +115,14 @@ export const ControlDocumentos: React.FC = () => {
 
     return (
       <div key={node.nombre} className="tree-node">
-        <div className="tree-node-content" style={{ paddingLeft: `${depth * 20}px` }}>
+        <div className="tree-node-content" style={{ paddingLeft: `${depth * 16}px` }}>
           {node.tipo === 'Carpeta' && hasChildren ? (
-            <button className="expand-button" onClick={() => toggleExpand(node.nombre)}>
-              {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+            <button
+              className="expand-button"
+              onClick={() => toggleExpand(node.nombre)}
+              aria-label={isExpanded ? 'Contraer' : 'Expandir'}
+            >
+              {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
             </button>
           ) : (
             <div className="expand-button-placeholder" />
@@ -84,12 +130,12 @@ export const ControlDocumentos: React.FC = () => {
 
           {node.tipo === 'Carpeta' ? (
             isExpanded ? (
-              <FolderOpen size={18} className="folder-open-icon" />
+              <FolderOpen size={20} className="folder-open-icon" />
             ) : (
-              <Folder size={18} className="folder-icon" />
+              <Folder size={20} className="folder-icon" />
             )
           ) : (
-            <FileText size={18} className="file-icon" />
+            <FileText size={20} className="file-icon" />
           )}
 
           <span className="node-label">{node.nombre}</span>
@@ -109,15 +155,62 @@ export const ControlDocumentos: React.FC = () => {
   return (
     <div className="control-documentos">
       <div className="control-documentos-header">
-        <h2>Control de Documentos</h2>
-        <p className="subtitle">Mobiliario No Clínico - Hospital Buin Paine</p>
+        <h2>📄 Documentos</h2>
+        <p className="subtitle">Mobiliario No Clínico</p>
       </div>
+
+      <div className="stats-container">
+        <div className="stat-card">
+          <div className="stat-icon">📁</div>
+          <div className="stat-info">
+            <div className="stat-number">{stats.carpetas}</div>
+            <div className="stat-label">Carpetas</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon">📄</div>
+          <div className="stat-info">
+            <div className="stat-number">{stats.archivos}</div>
+            <div className="stat-label">Archivos</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="search-container">
+        <Search size={20} className="search-icon" />
+        <input
+          type="text"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        {searchTerm && (
+          <button onClick={() => setSearchTerm('')} className="clear-button" aria-label="Limpiar">
+            <X size={18} />
+          </button>
+        )}
+      </div>
+
       <div className="control-documentos-content">
         <div className="tree-view">
-          {treeData.map((node) => (
-            <TreeNodeComponent key={node.nombre} node={node} depth={0} />
-          ))}
+          {filteredTree.length > 0 ? (
+            filteredTree.map((node) => (
+              <TreeNodeComponent key={node.nombre} node={node} depth={0} />
+            ))
+          ) : (
+            <div className="no-results">
+              <p>No encontrado</p>
+              <button onClick={() => setSearchTerm('')} className="reset-button">
+                Limpiar
+              </button>
+            </div>
+          )}
         </div>
+      </div>
+
+      <div className="footer-info">
+        Hospital Buin Paine
       </div>
     </div>
   );
