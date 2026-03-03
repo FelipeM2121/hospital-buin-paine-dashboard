@@ -36,7 +36,7 @@ export const ControlDocumentos: React.FC = () => {
           else archivos++;
         });
         setStats({ carpetas, archivos });
-        setExpandedNodes(new Set(tree.map(n => n.nombre)));
+        setExpandedNodes(new Set(tree.map(n => n.rutaRelativa || n.nombre)));
       } catch (error) {
         console.error('Error cargando documentos:', error);
       }
@@ -65,7 +65,7 @@ export const ControlDocumentos: React.FC = () => {
     const collectMatching = (nodes: TreeNode[]) => {
       nodes.forEach(node => {
         if (node.nombre.toLowerCase().includes(searchTerm.toLowerCase())) {
-          allMatching.add(node.nombre);
+          allMatching.add(node.rutaRelativa || node.nombre);
         }
         if (node.children) collectMatching(node.children);
       });
@@ -96,12 +96,12 @@ export const ControlDocumentos: React.FC = () => {
     return root;
   };
 
-  const toggleExpand = (nodeName: string) => {
+  const toggleExpand = (nodeId: string) => {
     const newExpanded = new Set(expandedNodes);
-    if (newExpanded.has(nodeName)) {
-      newExpanded.delete(nodeName);
+    if (newExpanded.has(nodeId)) {
+      newExpanded.delete(nodeId);
     } else {
-      newExpanded.add(nodeName);
+      newExpanded.add(nodeId);
     }
     setExpandedNodes(newExpanded);
   };
@@ -110,16 +110,17 @@ export const ControlDocumentos: React.FC = () => {
     node,
     depth,
   }) => {
-    const isExpanded = expandedNodes.has(node.nombre);
+    const nodeId = node.rutaRelativa || node.nombre;
+    const isExpanded = expandedNodes.has(nodeId);
     const hasChildren = node.children && node.children.length > 0;
 
     return (
-      <div key={node.nombre} className="tree-node">
-        <div className="tree-node-content" style={{ paddingLeft: `${depth * 16}px` }}>
+      <div key={nodeId} className="tree-node">
+        <div className="tree-node-content" style={{ paddingLeft: `${depth * 12}px` }}>
           {node.tipo === 'Carpeta' && hasChildren ? (
             <button
               className="expand-button"
-              onClick={() => toggleExpand(node.nombre)}
+              onClick={() => toggleExpand(nodeId)}
               aria-label={isExpanded ? 'Contraer' : 'Expandir'}
             >
               {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
@@ -143,8 +144,8 @@ export const ControlDocumentos: React.FC = () => {
 
         {hasChildren && isExpanded && (
           <div className="tree-children">
-            {node.children!.map((child) => (
-              <TreeNodeComponent key={child.nombre} node={child} depth={depth + 1} />
+            {node.children!.map((child, index) => (
+              <TreeNodeComponent key={child.rutaRelativa || `${node.rutaRelativa}-${index}`} node={child} depth={depth + 1} />
             ))}
           </div>
         )}
@@ -195,8 +196,8 @@ export const ControlDocumentos: React.FC = () => {
       <div className="control-documentos-content">
         <div className="tree-view">
           {filteredTree.length > 0 ? (
-            filteredTree.map((node) => (
-              <TreeNodeComponent key={node.nombre} node={node} depth={0} />
+            filteredTree.map((node, index) => (
+              <TreeNodeComponent key={node.rutaRelativa || `root-${index}`} node={node} depth={0} />
             ))
           ) : (
             <div className="no-results">

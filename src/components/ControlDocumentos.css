@@ -1,14 +1,13 @@
 /* MOBILE-FIRST RESPONSIVE DESIGN */
 
 .control-documentos {
-  padding: 12px;
+  padding: 8px;
   background: #f8f9fa;
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  gap: 8px;
+  overflow: hidden;
 }
 
 .control-documentos-header {
@@ -18,7 +17,7 @@
 
 .control-documentos-header h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #1f2937;
   line-height: 1.2;
@@ -26,7 +25,7 @@
 
 .subtitle {
   margin: 4px 0 0 0;
-  font-size: 12px;
+  font-size: 13px;
   color: #6b7280;
 }
 
@@ -40,17 +39,18 @@
 .stat-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: white;
-  padding: 12px;
+  padding: 14px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .stat-icon {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .stat-info {
@@ -59,13 +59,13 @@
 }
 
 .stat-number {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
   color: #0ea5e9;
 }
 
 .stat-label {
-  font-size: 11px;
+  font-size: 12px;
   color: #6b7280;
   margin-top: 2px;
 }
@@ -78,24 +78,30 @@
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 0 10px;
-  gap: 6px;
+  padding: 0 12px;
+  gap: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  min-height: 44px;
 }
 
 .search-icon {
   color: #9ca3af;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .search-input {
   flex: 1;
   border: none;
   background: none;
-  padding: 10px 0;
-  font-size: 14px;
+  padding: 12px 0;
+  font-size: 15px;
   outline: none;
   color: #1f2937;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .search-input::placeholder {
@@ -121,7 +127,7 @@
 /* Árbol de documentos */
 .control-documentos-content {
   flex: 1;
-  min-height: 300px;
+  min-height: 200px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -130,7 +136,7 @@
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px 6px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
@@ -141,13 +147,14 @@
 .tree-node-content {
   display: flex;
   align-items: center;
-  padding: 10px 6px;
+  padding: 8px 4px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.15s ease;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  min-height: 36px;
 }
 
 .tree-node-content:active {
@@ -218,8 +225,8 @@
 }
 
 .tree-children {
-  margin-left: 6px;
-  border-left: 2px solid #e5e7eb;
+  margin-left: 4px;
+  border-left: 1px solid #e5e7eb;
   padding-left: 0;
 }
 
@@ -253,17 +260,17 @@
 
 /* Footer */
 .footer-info {
-  font-size: 11px;
+  font-size: 12px;
   color: #9ca3af;
   text-align: center;
-  padding: 8px 0;
+  padding: 10px 0 8px;
 }
 
 /* TABLET LAYOUT */
 @media (min-width: 640px) {
   .control-documentos {
-    padding: 16px;
-    gap: 16px;
+    padding: 14px;
+    gap: 14px;
   }
 
   .control-documentos-header h2 {
@@ -272,11 +279,11 @@
 
   .stats-container {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 14px;
   }
 
   .stat-card {
-    padding: 14px;
+    padding: 16px;
   }
 
   .tree-view {
@@ -284,7 +291,8 @@
   }
 
   .tree-node-content {
-    padding: 12px 8px;
+    padding: 10px 6px;
+    min-height: 38px;
   }
 
   .node-label {
@@ -296,7 +304,7 @@
 @media (min-width: 1024px) {
   .control-documentos {
     padding: 20px;
-    gap: 20px;
+    gap: 16px;
   }
 
   .control-documentos-header {
@@ -313,20 +321,22 @@
   }
 
   .stat-card {
-    padding: 16px;
+    padding: 18px;
   }
 
   .tree-view {
     max-height: 600px;
-    padding: 12px;
+    padding: 14px;
   }
 
   .tree-node-content {
     padding: 8px 4px;
+    min-height: 40px;
   }
 
   .node-label {
     font-size: 14px;
-    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
