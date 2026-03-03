@@ -2317,14 +2317,68 @@ export default function App() {
 
           {activeTab === "Por Familia" && (
             <>
-              <SectionTitle count={S.familias}>Análisis por Familia</SectionTitle>
-              
-              <div style={{ 
-                display: "grid", 
-                gridTemplateColumns: "1.2fr 1fr", 
-                gap: 20, 
-                marginBottom: 32 
+              <SectionTitle count={S.familias}>Resumen y Análisis por Familia</SectionTitle>
+
+              {/* Tarjetas de Resumen Superior */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 16,
+                marginBottom: 32
               }}>
+                {S.byFamilia.map((f, i) => (
+                  <div key={i} style={{
+                    background: COLORS.white,
+                    borderRadius: 14,
+                    padding: 18,
+                    border: `1px solid ${COLORS.borderLight}`,
+                    boxShadow: "0 1px 3px rgba(99,102,241,0.05)",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                      <div style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 10,
+                        background: `${PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i]}20`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i],
+                        fontSize: 20,
+                      }}>
+                        {[Icons.tag, Icons.folder, Icons.box, Icons.stack][i]}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 12, color: COLORS.textMuted, fontWeight: 500 }}>
+                          {f.name}
+                        </div>
+                        <div style={{ fontSize: 20, fontWeight: 700, color: COLORS.text, marginTop: 2 }}>
+                          {f.qty.toLocaleString()}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{
+                      background: PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i],
+                      height: 6,
+                      borderRadius: 3,
+                      opacity: 0.3,
+                      marginBottom: 10,
+                    }} />
+                    <div style={{ fontSize: 12, color: COLORS.textMuted, fontWeight: 500 }}>
+                      {((f.qty / S.totalQty) * 100).toFixed(1)}% del total
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gráficos y Detalles */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1.5fr 1fr",
+                gap: 20,
+                marginBottom: 32
+              }}>
+                {/* Gráfico Pie Chart */}
                 <div style={{
                   background: COLORS.white,
                   borderRadius: 18,
@@ -2332,6 +2386,15 @@ export default function App() {
                   border: `1px solid ${COLORS.borderLight}`,
                   boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
                 }}>
+                  <h3 style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: COLORS.text,
+                    marginBottom: 20,
+                    marginTop: 0,
+                  }}>
+                    Distribución por Familia
+                  </h3>
                   <ResponsiveContainer width="100%" height={320}>
                     <PieChart>
                       <Pie
@@ -2349,45 +2412,125 @@ export default function App() {
                         ))}
                       </Pie>
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend wrapperStyle={{ fontSize: 13 }} />
+                      <Legend wrapperStyle={{ fontSize: 12 }} />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16 }}>
+                {/* Panel de Estadísticas Detalladas */}
+                <div style={{
+                  background: COLORS.white,
+                  borderRadius: 18,
+                  padding: 24,
+                  border: `1px solid ${COLORS.borderLight}`,
+                  boxShadow: "0 2px 16px rgba(99,102,241,0.07), 0 1px 4px rgba(0,0,0,0.04)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}>
+                  <h3 style={{
+                    fontSize: 16,
+                    fontWeight: 700,
+                    color: COLORS.text,
+                    marginBottom: 8,
+                    marginTop: 0,
+                  }}>
+                    Detalles por Familia
+                  </h3>
+
                   {S.byFamilia.map((f, i) => (
-                    <KPICard
-                      key={i}
-                      label={f.name}
-                      value={f.qty}
-                      sub={`${((f.qty / S.totalQty) * 100).toFixed(1)}%`}
-                      icon={[Icons.tag, Icons.folder, Icons.box, Icons.stack][i]}
-                      color={PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i]}
-                      compact
-                    />
+                    <div key={i} style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      paddingBottom: 12,
+                      borderBottom: i < S.byFamilia.length - 1 ? `1px solid ${COLORS.borderLight}` : "none",
+                    }}>
+                      <div style={{
+                        width: 12,
+                        height: 12,
+                        borderRadius: 3,
+                        background: PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i],
+                        flexShrink: 0,
+                      }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.text }}>
+                          {f.name}
+                        </div>
+                        <div style={{ fontSize: 11, color: COLORS.textMuted, marginTop: 2 }}>
+                          {f.qty.toLocaleString()} unidades
+                        </div>
+                      </div>
+                      <div style={{
+                        fontSize: 14,
+                        fontWeight: 700,
+                        color: PIE_FAMILIA_COLORS[f.name] || CHART_COLORS[i],
+                        whiteSpace: "nowrap",
+                      }}>
+                        {((f.qty / S.totalQty) * 100).toFixed(1)}%
+                      </div>
+                    </div>
                   ))}
+
+                  {/* Totales */}
+                  <div style={{
+                    paddingTop: 12,
+                    borderTop: `2px solid ${COLORS.borderLight}`,
+                    marginTop: 8,
+                  }}>
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: COLORS.text }}>
+                        Total Familias
+                      </div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: COLORS.primary }}>
+                        {S.totalQty.toLocaleString()} uds
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <DataTable
-                data={S.byFamilia.map((f, i) => ({
-                  ...f,
-                  rank: i + 1,
-                  pctQty: ((f.qty / S.totalQty) * 100).toFixed(1) + "%",
-                }))}
-                columns={[
-                  { key: "rank", label: "#", align: "center", mono: true, width: "60px" },
-                  { key: "name", label: "Familia", highlight: true, width: "200px" },
-                  { key: "qty", label: "Cantidad", align: "right", mono: true, width: "120px" },
-                  { key: "pctQty", label: "% del Total", align: "right", mono: true, width: "120px" },
-                  { 
-                    key: "qty", 
-                    label: "Distribución", 
-                    render: (v) => <ProgressBar value={v} max={3233} color={COLORS.primary} /> 
-                  },
-                ]}
-                maxRows={4}
-              />
+              {/* Tabla Detallada */}
+              <div style={{
+                background: COLORS.white,
+                borderRadius: 18,
+                padding: 24,
+                border: `1px solid ${COLORS.borderLight}`,
+                boxShadow: "0 2px 16px rgba(99,102,941,0.05)",
+              }}>
+                <h3 style={{
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: COLORS.text,
+                  marginBottom: 20,
+                  marginTop: 0,
+                }}>
+                  Análisis Comparativo Detallado
+                </h3>
+                <DataTable
+                  data={S.byFamilia.map((f, i) => ({
+                    ...f,
+                    rank: i + 1,
+                    pctQty: ((f.qty / S.totalQty) * 100).toFixed(1) + "%",
+                  }))}
+                  columns={[
+                    { key: "rank", label: "#", align: "center", mono: true, width: "60px" },
+                    { key: "name", label: "Familia", highlight: true, width: "200px" },
+                    { key: "qty", label: "Cantidad", align: "right", mono: true, width: "120px" },
+                    { key: "pctQty", label: "% del Total", align: "right", mono: true, width: "120px" },
+                    {
+                      key: "qty",
+                      label: "Distribución Gráfica",
+                      render: (v) => <ProgressBar value={v} max={3233} color={COLORS.primary} />
+                    },
+                  ]}
+                  maxRows={10}
+                />
+              </div>
             </>
           )}
 
